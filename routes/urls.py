@@ -3,7 +3,7 @@ from routes import views
 
 app_name = 'routes'
 
-assignment_urls = [
+assignments_urls = [
     path('add/', views.assignment_add, name='assignment_add'),
     path('', views.assignment_list, name='assignment_list'),
     path('<int:pk>/', include([
@@ -34,7 +34,7 @@ delivery_points_urls = [
 ]
 
 urlpatterns = [
-    path('assignment/', include(assignment_urls)),
+    path('assignment/', include(assignments_urls)),
     path('routes/', include(routes_urls)),
     path('delivery-points/', include(delivery_points_urls))
 ]

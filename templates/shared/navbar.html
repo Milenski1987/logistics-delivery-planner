@@ -1,10 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% load static %}
 
-</body>
-</html>
+<nav class="bg-info">
+    <div class="d-flex justify-content-center">
+        <div class="d-flex align-items-center flex-nowrap px-3">
+            <a class="nav-link p-0 me-3" href="{% url 'common:home' %}">
+                <img width="50" src="{% static 'images/logo.svg' %}" alt="Home">
+            </a>
+            <ul class="nav flex-nowrap align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'drivers:list' %}">Drivers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'vehicles:list' %}">Vehicles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'routes:routes_list' %}">Routes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark text-nowrap"
+                       href="{% url 'routes:delivery_points_list' %}">
+                        Delivery Points
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{% url 'routes:assignment_list' %}">
+                        Assignments
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
