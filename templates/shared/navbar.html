@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="bg-info">
+<nav class="bg-success">
     <div class="d-flex justify-content-center">
         <div class="d-flex align-items-center flex-nowrap px-3">
             <a class="nav-link p-0 me-3" href="{% url 'common:home' %}">
@@ -8,23 +8,28 @@
             </a>
             <ul class="nav flex-nowrap align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{% url 'drivers:list' %}">Drivers</a>
+                    <a class="nav-link text-dark" href="{% url 'drivers:list' %}">
+                        <b>Drivers</b>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{% url 'vehicles:list' %}">Vehicles</a>
+                    <a class="nav-link text-dark" href="{% url 'vehicles:list' %}">
+                        <b>Vehicles</b>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{% url 'routes:routes_list' %}">Routes</a>
+                    <a class="nav-link text-dark" href="{% url 'routes:routes_list' %}">
+                        <b>Routes</b>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark text-nowrap"
-                       href="{% url 'routes:delivery_points_list' %}">
-                        Delivery Points
+                    <a class="nav-link text-dark text-nowrap" href="{% url 'routes:delivery_points_list' %}">
+                        <b>Delivery Points</b>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="{% url 'routes:assignment_list' %}">
-                        Assignments
+                        <b>Assignments</b>
                     </a>
                 </li>
             </ul>
