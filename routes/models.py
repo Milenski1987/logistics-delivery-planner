@@ -53,6 +53,8 @@ class Assignment(models.Model):
         related_name='driver_assignments'
     )
 
+    assignment_start = models.DateTimeField()
+
     vehicle = models.ForeignKey(
         'vehicles.Vehicle',
         null=True,

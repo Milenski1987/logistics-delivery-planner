@@ -44,5 +44,5 @@ class Driver(models.Model):
         return current_year - self.date_of_birth.year
 
     def __str__(self):
-        return f'Name: {self.full_name} - {self.driver_age} years old, with {self.years_of_experience} years experience'
+        return f'{self.full_name} - {self.driver_age} years old with {self.years_of_experience} years experience'
 

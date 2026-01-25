@@ -1,9 +1,33 @@
 {% extends "shared/base.html" %}
-
+{% load static %}
 {% block content %}
-<div class="flex-fill bg-warning-subtle">
-    <div class="container py-5">
-        
+<div class="flex-fill bg-warning-subtle py-5">
+    <div class="container">
+        {% if drivers %}
+            <h2 class="mb-4 text-center">Drivers List</h2>
+            <div class="row g-4">
+                {% for driver in drivers %}
+                    <div class="col-md-4">
+                        <div class="border rounded-5 p-3 bg-white shadow-sm d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center">
+                                <img src="{% static 'images/driver_icon.png' %}" alt="Driver" style="width:40px; height:40px;">
+                            </div>
+                            <div class="d-flex flex-column">
+                                <strong>{{ driver.full_name }}</strong>
+                                <small>{{ driver.years_of_experience }} years of experience</small>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <a href="{% url 'drivers:details' pk=driver.id %}" class="btn btn-success rounded-5 me-2">
+                                    Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2 class="text-center">No Drivers</h2>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
