@@ -3,7 +3,10 @@
 {% block content %}
 <div class="flex-fill bg-warning-subtle">
     <div class="container py-5">
-
+        <li>{{ driver.full_name }}</li>
+        <li>{{ driver.driver_age }}</li>
+        <li>{{ driver.date_of_birth }}</li>
+        <a href="{% url 'drivers:list' %}">Back</a>
     </div>
 </div>
 {% endblock %}
