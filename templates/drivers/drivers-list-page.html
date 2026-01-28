@@ -1,7 +1,14 @@
 {% extends "shared/base.html" %}
 {% load static %}
 {% block content %}
+
 <div class="flex-fill bg-warning-subtle py-5">
+    <form>
+        {{ form.search }}
+        <button>Search</button>
+        {{ form.sort }}
+        <button>Sort</button>
+    </form>
     <div class="container">
         {% if drivers %}
             <h2 class="mb-4 text-center">Drivers List</h2>
