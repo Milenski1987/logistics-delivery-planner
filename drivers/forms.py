@@ -8,7 +8,7 @@ class DriverSearchAndSortForm(forms.Form):
         widget=forms.SearchInput(
             {'placeholder': 'Enter name'}
         ),
-        label='Search Drivers by Name:'
+        label='Search by name:'
     )
 
     sort = forms.ChoiceField(
