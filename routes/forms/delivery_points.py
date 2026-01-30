@@ -3,17 +3,17 @@ from django import forms
 import common.mixins
 from routes.models import DeliveryPoint
 
+class BaseDeliveryPointsFrom(forms.ModelForm):
+    class Meta:
+        model = DeliveryPoint
+        fields = '__all__'
 
-class DeliveryPointDeleteForm(forms.ModelForm, common.mixins.DisableFormFieldsMixin):
+
+class DeliveryPointDeleteForm(common.mixins.ReadOnlyFieldsMixin, BaseDeliveryPointsFrom):
     ...
 
+class DeliveryPointAddForm(BaseDeliveryPointsFrom):
+    ...
 
-class DeliveryPointAddForm(forms.ModelForm):
-    class Meta:
-        model = DeliveryPoint
-        fields = '__all__'
-
-class DeliveryPointEditForm(forms.ModelForm):
-    class Meta:
-        model = DeliveryPoint
-        fields = '__all__'
+class DeliveryPointEditForm(BaseDeliveryPointsFrom):
+    ...
