@@ -1,34 +1,74 @@
+{#{% load static %}#}
+{##}
+{#<nav class="bg-success">#}
+{#    <div class="d-flex justify-content-center">#}
+{#        <div class="d-flex align-items-center flex-nowrap px-3">#}
+{#            <a class="nav-link p-0 me-3" href="{% url 'common:home' %}">#}
+{#                <img width="50" src="{% static 'images/logo.svg' %}" alt="Home">#}
+{#            </a>#}
+{#            <ul class="nav flex-nowrap align-items-center">#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link text-dark" href="{% url 'drivers:list' %}">#}
+{#                        <b>Drivers</b>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link text-dark" href="{% url 'vehicles:list' %}">#}
+{#                        <b>Vehicles</b>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link text-dark" href="{% url 'routes:routes_list' %}">#}
+{#                        <b>Routes</b>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link text-dark text-nowrap" href="{% url 'routes:delivery_points_list' %}">#}
+{#                        <b>Delivery Points</b>#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link text-dark" href="{% url 'routes:assignment_list' %}">#}
+{#                        <b>Assignments</b>#}
+{#                    </a>#}
+{#                </li>#}
+{#            </ul>#}
+{#        </div>#}
+{#    </div>#}
+{#</nav>#}
+
+
 {% load static %}
 
-<nav class="bg-success">
+<nav class="bg-success py-2">
     <div class="d-flex justify-content-center">
         <div class="d-flex align-items-center flex-nowrap px-3">
             <a class="nav-link p-0 me-3" href="{% url 'common:home' %}">
-                <img width="50" src="{% static 'images/logo.svg' %}" alt="Home">
+                <img width="60" src="{% static 'images/logo.svg' %}" alt="Home">
             </a>
             <ul class="nav flex-nowrap align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{% url 'drivers:list' %}">
+                    <a class="nav-link text-dark fs-5" href="{% url 'drivers:list' %}">
                         <b>Drivers</b>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{% url 'vehicles:list' %}">
+                    <a class="nav-link text-dark fs-5" href="{% url 'vehicles:list' %}">
                         <b>Vehicles</b>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{% url 'routes:routes_list' %}">
+                    <a class="nav-link text-dark fs-5" href="{% url 'routes:routes_list' %}">
                         <b>Routes</b>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark text-nowrap" href="{% url 'routes:delivery_points_list' %}">
+                    <a class="nav-link text-dark text-nowrap fs-5" href="{% url 'routes:delivery_points_list' %}">
                         <b>Delivery Points</b>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="{% url 'routes:assignment_list' %}">
+                    <a class="nav-link text-dark fs-5" href="{% url 'routes:assignment_list' %}">
                         <b>Assignments</b>
                     </a>
                 </li>

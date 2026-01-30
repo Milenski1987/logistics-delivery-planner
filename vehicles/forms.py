@@ -1,15 +1,8 @@
 from django import forms
+from common.forms import SearchForm
 
 
-class VehicleSearchAndSortForm(forms.Form):
-    search = forms.CharField(
-        max_length=50,
-        required=False,
-        widget=forms.SearchInput(
-            {'placeholder': 'Search:'}
-        ),
-        label='Search by make:'
-    )
+class VehicleSearchAndSortForm(SearchForm):
 
     sort = forms.ChoiceField(
         required=False,
@@ -19,5 +12,7 @@ class VehicleSearchAndSortForm(forms.Form):
             ('capacity_kg', 'Capacity in kg (Low-High)'),
             ('-capacity_kg', 'Capacity in kg (High-Low)'),
         ],
-        label='Sort Vehicle by:'
+        widget=forms.Select(
+            {'class': 'form-select rounded-4'}
+        )
     )

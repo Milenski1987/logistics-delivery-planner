@@ -1,15 +1,8 @@
 from django import forms
+from common.forms import SearchForm
 
 
-class DriverSearchAndSortForm(forms.Form):
-    search = forms.CharField(
-        max_length=50,
-        required=False,
-        widget=forms.SearchInput(
-            {'placeholder': 'Enter name'}
-        ),
-        label='Search by name:'
-    )
+class DriverSearchAndSortForm(SearchForm):
 
     sort = forms.ChoiceField(
         required=False,
@@ -19,5 +12,7 @@ class DriverSearchAndSortForm(forms.Form):
             ('years_of_experience', 'Experience (Low-High)'),
             ('-years_of_experience', 'Experience (High-Low)'),
         ],
-        label='Sort Drivers by:'
+        widget=forms.Select(
+            {'class': 'form-select rounded-4'}
+        )
     )

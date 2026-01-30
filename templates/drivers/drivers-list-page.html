@@ -3,12 +3,7 @@
 {% block content %}
 
 <div class="flex-fill bg-warning-subtle py-5">
-    <form>
-        {{ form.search }}
-        <button>Search</button>
-        {{ form.sort }}
-        <button>Sort</button>
-    </form>
+    {% include 'shared/filter.html' %}
     <div class="container">
         {% if drivers %}
             <h2 class="mb-4 text-center">Drivers List</h2>
@@ -24,9 +19,7 @@
                                 <small>{{ driver.years_of_experience }} years of experience</small>
                             </div>
                             <div class="d-flex align-items-center">
-                                <a href="{% url 'drivers:details' pk=driver.id %}" class="btn btn-success rounded-5 me-2">
-                                    Details
-                                </a>
+                                <a href="{% url 'drivers:details' pk=driver.id %}" class="btn btn-success rounded-5 me-2">Details</a>
                             </div>
                         </div>
                     </div>
