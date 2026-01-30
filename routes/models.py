@@ -1,7 +1,12 @@
 from django.db import models
 
-# Create your models here.
+
 class DeliveryPoint(models.Model):
+    name = models.CharField(
+        max_length=50,
+        unique=True
+    )
+
     address = models.CharField(
         max_length=150
     )
@@ -30,8 +35,6 @@ class Route(models.Model):
 
     distance_km = models.PositiveIntegerField()
 
-    estimated_duration_minute = models.PositiveIntegerField()
-
     points_for_delivery = models.ManyToManyField(
         'DeliveryPoint',
         related_name='delivery_point_routes'
@@ -53,8 +56,6 @@ class Assignment(models.Model):
         related_name='driver_assignments'
     )
 
-    assignment_start = models.DateTimeField()
-
     vehicle = models.ForeignKey(
         'vehicles.Vehicle',
         null=True,
@@ -62,12 +63,14 @@ class Assignment(models.Model):
         related_name='vehicle_assignments'
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        editable=False
-    )
+    assignment_start = models.DateField()
 
     notes = models.TextField(
         blank=True,
         null=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        editable=False
     )

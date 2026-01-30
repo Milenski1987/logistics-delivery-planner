@@ -1,13 +1,9 @@
-import re
 from datetime import date
-
-from django.core.validators import MinLengthValidator, URLValidator, RegexValidator, MaxValueValidator
+from django.core.validators import RegexValidator
 from django.db import models
+from drivers.validators import driver_years_validator, PhoneNumberValidator
 
-from drivers.validators import driver_years_validator
 
-
-# Create your models here.
 class Driver(models.Model):
     full_name = models.CharField(
         max_length= 50
@@ -20,7 +16,14 @@ class Driver(models.Model):
     )
 
     phone_number = models.CharField(
-        max_length=10
+        unique=True,
+        validators=[
+            PhoneNumberValidator(
+                10,
+                'Phone number must be exactly 10 digits.',
+                'Phone number must contain digits only'
+            )
+        ]
     )
 
     driving_license_number = models.CharField(
@@ -34,9 +37,6 @@ class Driver(models.Model):
 
     years_of_experience = models.PositiveSmallIntegerField()
 
-    is_active = models.BooleanField(
-        default=True
-    )
 
     @property
     def driver_age(self):
