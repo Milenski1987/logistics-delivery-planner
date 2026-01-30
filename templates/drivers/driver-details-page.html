@@ -1,6 +1,7 @@
 {% extends "shared/base.html" %}
 {% load static %}
 {% block content %}
+{% load birth_date_filter %}
 
 <div class="flex-fill bg-warning-subtle py-5">
     <div class="container">
@@ -21,7 +22,7 @@
 
                             <div class="mb-3 p-3 bg-warning-subtle rounded-4">
                                 <strong>Date of birth:</strong>
-                                <p class="mb-0 mt-1">{{ driver.date_of_birth }}</p>
+                                <p class="mb-0 mt-1">{{ driver.date_of_birth|birth_date }}</p>
                             </div>
 
                             <div class="mb-3 p-3 bg-warning-subtle rounded-4">
