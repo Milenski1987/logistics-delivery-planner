@@ -4,19 +4,19 @@
             <div class="col-md-4">
                 <div class="input-group">
                     {{ form.search }}
-                    <button type="submit" class="btn btn-success px-4 rounded-5 mx-1">
+                    <button class="btn btn-success px-4 rounded-5 mx-1">
                         <span class="d-none d-sm-inline">Search</span>
-                        <span class="d-sm-none">🔍</span>
                     </button>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                    {{ form.sort }}
-                    <button type="submit" class="btn btn-success px-5 rounded-5 mx-1">
-                        <span class="d-none d-sm-inline">Sort</span>
-                        <span class="d-sm-none">↕️</span>
-                    </button>
+                    {% if form.sort %}
+                        {{ form.sort }}
+                        <button class="btn btn-success px-5 rounded-5 mx-1">
+                            <span class="d-none d-sm-inline">Sort</span>
+                        </button>
+                    {% endif %}
                 </div>
             </div>
         </div>

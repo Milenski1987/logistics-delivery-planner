@@ -1,7 +1,7 @@
 {% extends "shared/base.html" %}
 {% load static %}
 {% block content %}
-{% load birth_date_filter %}
+{% load date_convert_filter %}
 
 <div class="flex-fill bg-warning-subtle py-5">
     <div class="container">
@@ -14,34 +14,28 @@
                         </div>
                         <div class="col-md-8">
                             <h2 class="mb-4 text-center">Driver Details</h2>
-
                             <div class="mb-3 p-3 bg-warning-subtle rounded-4">
                                 <strong>Name:</strong>
                                 <p class="mb-0 mt-1">{{ driver.full_name }}</p>
                             </div>
-
                             <div class="mb-3 p-3 bg-warning-subtle rounded-4">
                                 <strong>Date of birth:</strong>
-                                <p class="mb-0 mt-1">{{ driver.date_of_birth|birth_date }}</p>
+                                <p class="mb-0 mt-1">{{ driver.date_of_birth|date_convert }}</p>
                             </div>
-
                             <div class="mb-3 p-3 bg-warning-subtle rounded-4">
                                 <strong>License number:</strong>
                                 <p class="mb-0 mt-1">{{ driver.driving_license_number }}</p>
                             </div>
-
                             <div class="mb-3 p-3 bg-warning-subtle rounded-4">
                                 <strong>Years of experience:</strong>
                                 <p class="mb-0 mt-1">{{ driver.years_of_experience }}</p>
                             </div>
-
                             <div class="mb-3 p-3 bg-warning-subtle rounded-4">
                                 <strong>Phone:</strong>
                                 <p class="mb-0 mt-1">{{ driver.phone_number }}</p>
                             </div>
-
                             <div class="mt-4 text-center">
-                                <a href="{% url 'drivers:list' %}" class="btn btn-success rounded-5 px-5">Back</a>
+                                <a href="{% url 'drivers:list' %}" class="btn btn-dark rounded-5 px-5">Back</a>
                             </div>
                         </div>
                     </div>
