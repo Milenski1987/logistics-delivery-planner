@@ -1,9 +1,55 @@
 {% extends "shared/base.html" %}
-
+{% load static %}
 {% block content %}
-<div class="flex-fill bg-warning-subtle">
-    <div class="container py-5">
+{% load date_convert_filter %}
 
+<div class="flex-fill bg-warning-subtle py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6">
+                <form>
+                    <div class="input-group">
+                        {{ form.search }}
+                        <button class="btn btn-success rounded-5 ms-2 px-4">
+                            <span class="d-none d-sm-inline">Search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% if assignments %}
+            <h2 class="mb-4 text-center">Assignments List</h2>
+            <div class="row g-4 justify-content-center">
+                {% for assignment in assignments %}
+                    <div class="col-12 col-md-6">
+                        <div class="border rounded-5 p-3 bg-white shadow-sm d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="{% static 'images/assignment_icon.png' %}" alt="Assignment" style="width:40px; height:40px;">
+                                <div class="d-flex flex-column lh-base gap-1 text-start">
+                                    <div class="fw-semibold fs-6">Assignment #{{ assignment.id }}</div>
+                                    <div class="text-muted">Route: {{ assignment.route }}</div>
+                                    <div class="text-muted">Driver: {{ assignment.driver.full_name }}</div>
+                                    <div class="text-muted">Vehicle: {{ assignment.vehicle }}</div>
+                                    <div class="text-muted">Start: {{ assignment.assignment_start|date_convert }}</div>
+                                </div>
+                            </div>
+                            <div class="ms-auto mt-2 mt-md-0">
+                                <a href="{% url 'routes:assignment_details' pk=assignment.id %}"
+                                   class="btn btn-success rounded-5">
+                                    Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2 class="text-center">No Assignments.</h2>
+        {% endif %}
+        <div class="text-center mb-4">
+            <a href="{% url 'routes:assignment_add' %}" class="btn btn-success rounded-5 px-5 mt-5">Create Assignment</a>
+        </div>
     </div>
 </div>
+
 {% endblock %}

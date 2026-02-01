@@ -1,6 +1,8 @@
+from django.db.models import Q
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 
+from common.forms import SearchForm
 from routes.forms.assignments import AssignmentDeleteForm, AssignmentAddForm, AssignmentEditForm
 from routes.models import Assignment
 
@@ -15,15 +17,32 @@ def assignment_add(request: HttpRequest) -> HttpResponse:
             return redirect('routes:assignment_details', pk=assignment.id)
 
     context = {
-        'form': form
+        'form': form,
+        'title': 'assignment'
     }
     return render(request, 'routes/assignment-add-page.html', context)
 
 def assignment_list(request: HttpRequest) -> HttpResponse:
-    assignments = Assignment.objects.all()
+    assignments = Assignment.objects.all().order_by('assignment_start')
+    form = SearchForm(request.GET or None)
+
+    if request.method == 'GET':
+        if form.is_valid():
+            search_by = form.cleaned_data['search']
+            assignments = Assignment.objects.filter(
+                Q(route__name__icontains=search_by)
+                |
+                Q(route__points_for_delivery__name__icontains=search_by)
+                |
+                Q(driver__full_name__icontains=search_by)
+                |
+                Q(vehicle__make__icontains=search_by)
+            ).order_by('assignment_start')
 
     context = {
-        'assignments': assignments
+        'assignments': assignments,
+        'form': form,
+        'title': 'assignment'
     }
 
     return render(request, 'routes/assignments-list-page.html', context)
@@ -51,7 +70,8 @@ def assignment_edit(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'assignment': assignment
+        'assignment': assignment,
+        'title': 'assignment'
     }
 
     return render(request, 'routes/assignment-edit-page.html', context)
@@ -70,7 +90,9 @@ def assignment_delete(request: HttpRequest, pk: int) -> HttpResponse:
             return redirect('routes:assignment_list')
 
     context = {
-        'form': form
+        'form': form,
+        'assignment': assignment,
+        'title': 'assignment'
     }
 
     return render(request, 'routes/assignment-delete-page.html', context)
