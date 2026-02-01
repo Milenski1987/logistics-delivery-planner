@@ -1,5 +1,5 @@
 from django import forms
-
+from django.core.exceptions import ValidationError
 import common.mixins
 from routes.models import Route
 
@@ -11,8 +11,29 @@ class BaseRouteForm(forms.ModelForm):
             'points_for_delivery':forms.CheckboxSelectMultiple()
         }
         help_texts={
-            'points_for_delivery': 'Can choose more 1 or more'
+            'points_for_delivery': 'You can choose multiple points for delivery'
         }
+        labels = {
+            'distance_km': 'Distance in km'
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            if field.label != 'Points for delivery':
+                field.widget.attrs.update({'class': 'form-control'})
+
+    def clean_start_location(self):
+        location = self.cleaned_data.get('start_location')
+        if not location.isalpha():
+            raise ValidationError('Start location must contain only letters.')
+        return location
+
+    def clean_end_location(self):
+        location = self.cleaned_data.get('end_location')
+        if not location.isalpha():
+            raise ValidationError('End location must contain only letters.')
+        return location
 
 class RouteDeleteForm(common.mixins.ReadOnlyFieldsMixin, BaseRouteForm):
     class Meta(BaseRouteForm.Meta):

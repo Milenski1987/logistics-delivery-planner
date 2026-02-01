@@ -1,8 +1,9 @@
+from django.db.models import Q
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 
+from common.forms import SearchForm
 from routes.forms.routes import RouteDeleteForm, RouteAddForm, RouteEditForm
-from routes.forms.routes import RouteDeleteForm
 from routes.models import Route
 
 
@@ -16,16 +17,30 @@ def route_add(request: HttpRequest) -> HttpResponse:
             return redirect('routes:route_details', pk=route.id)
 
     context = {
-        'form': form
+        'form': form,
+        'title': 'route'
     }
 
     return render(request, 'routes/route-add-page.html', context)
 
 def routes_list(request: HttpRequest) -> HttpResponse:
     routes = Route.objects.all()
+    form = SearchForm(request.GET or None)
+
+    if request.method == 'GET':
+        if form.is_valid():
+            search_by = form.cleaned_data['search']
+            routes = Route.objects.filter(
+                Q(name__icontains=search_by)
+                |
+                Q(start_location__icontains=search_by)
+                |
+                Q(end_location__icontains=search_by)
+            )
 
     context = {
-        'routes': routes
+        'routes': routes,
+        'form':form
     }
 
     return render(request, 'routes/routes-list-page.html', context)
@@ -54,7 +69,8 @@ def route_edit(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'route': route
+        'route': route,
+        'title': 'route'
     }
 
     return render(request, 'routes/route-edit-page.html', context)
@@ -72,7 +88,9 @@ def route_delete(request: HttpRequest, pk: int) -> HttpResponse:
             return redirect('routes:routes_list')
 
     context = {
-        'form': form
+        'form': form,
+        'route': route,
+        'title': 'route'
     }
 
     return render(request, 'routes/route-delete-page.html', context)
