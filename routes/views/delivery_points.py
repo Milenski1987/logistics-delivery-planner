@@ -1,6 +1,8 @@
+from django.db.models import Q
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, get_object_or_404, redirect
 
+from common.forms import SearchForm
 from routes.forms.delivery_points import DeliveryPointDeleteForm, DeliveryPointAddForm, DeliveryPointEditForm
 from routes.models import DeliveryPoint
 
@@ -15,16 +17,30 @@ def delivery_point_add(request: HttpRequest) -> HttpResponse:
             return redirect('routes:delivery_point_details', pk=delivery_point.id)
 
     context = {
-        'form': form
+        'form': form,
+        'title': 'delivery point'
     }
 
     return render(request, 'routes/delivery-point-add-page.html', context)
 
 def delivery_points_list(request: HttpRequest) -> HttpResponse:
     delivery_points = DeliveryPoint.objects.all()
+    form = SearchForm(request.GET or None)
+
+    if request.method == "GET":
+        if form.is_valid():
+            search_by = form.cleaned_data['search']
+            delivery_points = DeliveryPoint.objects.filter(
+                Q(name__icontains=search_by)
+                |
+                Q(address__icontains=search_by)
+                |
+                Q(city__icontains=search_by)
+            )
 
     context={
-        'delivery_points':delivery_points
+        'delivery_points':delivery_points,
+        'form': form
     }
     return render(request, 'routes/delivery-points-list-page.html', context)
 
@@ -51,7 +67,8 @@ def delivery_point_edit(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'delivery_point': delivery_point
+        'delivery_point': delivery_point,
+        'title': 'delivery point'
     }
 
     return render(request, 'routes/delivery-point-edit-page.html', context)
@@ -70,7 +87,9 @@ def delivery_point_delete(request: HttpRequest, pk: int) -> HttpResponse:
             return redirect('routes:delivery_points_list')
 
     context = {
-        'form': form
+        'form': form,
+        'delivery_point': delivery_point,
+        'title': 'delivery point'
     }
 
     return render(request, 'routes/delivery-point-delete-page.html', context)

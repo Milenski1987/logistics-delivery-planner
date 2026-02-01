@@ -1,9 +1,55 @@
 {% extends "shared/base.html" %}
-
+{% load static %}
 {% block content %}
-<div class="flex-fill bg-warning-subtle">
-    <div class="container py-5">
 
+<div class="flex-fill bg-warning-subtle py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6">
+                <form>
+                    <div class="input-group">
+                        {{ form.search }}
+                        <button class="btn btn-success rounded-5 ms-2 px-4">
+                            <span class="d-none d-sm-inline">Search</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% if delivery_points %}
+            <h2 class="mb-4 text-center">Delivery Points List</h2>
+            <div class="row g-4 justify-content-center">
+                {% for point in delivery_points %}
+                    <div class="col-12 col-md-6">
+                        <div class="border rounded-5 p-3 bg-white shadow-sm
+                                    d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="{% static 'images/delivery_point_icon.png' %}"
+                                     alt="Delivery Point"
+                                     style="width:40px; height:40px;">
+                                <div class="d-flex flex-column lh-base gap-1 text-start">
+                                    <div class="fw-semibold fs-6">{{ point.name|capfirst }}</div>
+                                    <div class="text-muted">City: {{ point.city }}</div>
+                                    <div class="text-muted">Address: {{ point.address }}</div>
+                                </div>
+                            </div>
+                            <div class="ms-auto mt-2 mt-md-0">
+                                <a href="{% url 'routes:delivery_point_details' pk=point.id %}"
+                                   class="btn btn-success rounded-5">
+                                    Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2 class="text-center">No Delivery Points.</h2>
+        {% endif %}
+        <div class="text-center mb-4">
+            <a href="{% url 'routes:delivery_point_add' %}" class="btn btn-success rounded-5 px-5 mt-5">Add New Delivery Point</a>
+        </div>
     </div>
 </div>
+
 {% endblock %}
