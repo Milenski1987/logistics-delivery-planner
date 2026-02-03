@@ -2,34 +2,34 @@
 {% load static %}
 {% block content %}
 
-<div class="flex-fill bg-warning-subtle py-5">
+<div class="flex-fill py-5">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="bg-white rounded-5 shadow p-4">
+                <div class="bg-warning-subtle rounded-5 shadow p-4">
                     <div class="row">
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
                             <img src="{% static 'images/vehicle_icon.png' %}" alt="Vehicle" class="img-fluid" style="max-width: 200px;">
                         </div>
                         <div class="col-md-8">
                             <h2 class="mb-4 text-center">Vehicle Details</h2>
-                            <div class="mb-3 p-3 bg-warning-subtle rounded-4">
+                            <div class="mb-3 p-3 bg-white rounded-4">
                                 <strong>Make:</strong>
                                 <p class="mb-0 mt-1">{{ vehicle.make|upper }}</p>
                             </div>
-                            <div class="mb-3 p-3 bg-warning-subtle rounded-4">
+                            <div class="mb-3 p-3 bg-white rounded-4">
                                 <strong>Model:</strong>
                                 <p class="mb-0 mt-1">{{ vehicle.model }}</p>
                             </div>
-                            <div class="mb-3 p-3 bg-warning-subtle rounded-4">
+                            <div class="mb-3 p-3 bg-white rounded-4">
                                 <strong>Registration number:</strong>
                                 <p class="mb-0 mt-1">{{ vehicle.registration_number }}</p>
                             </div>
-                            <div class="mb-3 p-3 bg-warning-subtle rounded-4">
+                            <div class="mb-3 p-3 bg-white rounded-4">
                                 <strong>Vehicle type:</strong>
                                 <p class="mb-0 mt-1">{{ vehicle.vehicle_type }}</p>
                             </div>
-                            <div class="mb-3 p-3 bg-warning-subtle rounded-4">
+                            <div class="mb-3 p-3 bg-white rounded-4">
                                 <strong>Capacity:</strong>
                                 <p class="mb-0 mt-1">{{ vehicle.capacity_kg }}kg</p>
                             </div>

@@ -2,14 +2,14 @@
 {% load static %}
 {% block content %}
 
-<div class="flex-fill bg-warning-subtle py-5">
+<div class="flex-fill py-5">
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-md-6">
                 <form>
                     <div class="input-group">
                         {{ form.search }}
-                        <button class="btn btn-success rounded-5 ms-2 px-4">
+                        <button class="btn btn-success border-warning-subtle rounded-5 ms-2 px-4">
                             <span class="d-none d-sm-inline">Search</span>
                         </button>
                     </div>
@@ -17,7 +17,6 @@
             </div>
         </div>
         {% if delivery_points %}
-            <h2 class="mb-4 text-center">Delivery Points List</h2>
             <div class="row g-4 justify-content-center">
                 {% for point in delivery_points %}
                     <div class="col-12 col-md-6">
@@ -47,7 +46,7 @@
             <h2 class="text-center">No Delivery Points.</h2>
         {% endif %}
         <div class="text-center mb-4">
-            <a href="{% url 'routes:delivery_point_add' %}" class="btn btn-success rounded-5 px-5 mt-5">Add New Delivery Point</a>
+            <a href="{% url 'routes:delivery_point_add' %}" class="btn btn-success border-warning-subtle rounded-5 px-5 mt-5">Add New Delivery Point</a>
         </div>
     </div>
 </div>

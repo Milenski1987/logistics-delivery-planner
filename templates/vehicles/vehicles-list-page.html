@@ -2,11 +2,10 @@
 {% load static %}
 {% block content %}
 
-<div class="flex-fill bg-warning-subtle py-5">
+<div class="flex-fill py-5">
     {% include 'shared/filter.html' %}
     <div class="container">
         {% if vehicles %}
-            <h2 class="mb-4 text-center">Vehicles List</h2>
             <div class="row g-4">
                 {% for vehicle in vehicles %}
                     <div class="col-md-4">
