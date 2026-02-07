@@ -18,10 +18,12 @@ def route_add(request: HttpRequest) -> HttpResponse:
 
     context = {
         'form': form,
-        'title': 'route'
+        'title': 'Route',
+        'back_url': 'routes:routes_list',
+        'icon': 'images/route_icon.png'
     }
 
-    return render(request, 'routes/route-add-page.html', context)
+    return render(request, 'shared/base-add-page.html', context)
 
 def routes_list(request: HttpRequest) -> HttpResponse:
     routes = Route.objects.all()
@@ -49,7 +51,9 @@ def route_detail(request: HttpRequest, pk: int) -> HttpResponse:
     route = get_object_or_404(Route, pk=pk)
 
     context = {
-        'route': route
+        'route': route,
+        'title': 'Route',
+        'icon': 'images/route_icon.png'
     }
 
     return render(request, 'routes/route-details-page.html', context)
@@ -69,11 +73,13 @@ def route_edit(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'route': route,
-        'title': 'route'
+        'title': 'Route',
+        'id': route.id,
+        'back_url': 'routes:route_details',
+        'icon': 'images/route_icon.png'
     }
 
-    return render(request, 'routes/route-edit-page.html', context)
+    return render(request, 'shared/base-edit-page.html', context)
 
 def route_delete(request: HttpRequest, pk: int) -> HttpResponse:
     route = get_object_or_404(Route, pk=pk)
@@ -89,8 +95,10 @@ def route_delete(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'route': route,
-        'title': 'route'
+        'title': 'Route',
+        'id':route.id,
+        'back_url': 'routes:route_details',
+        'icon': 'images/route_icon.png'
     }
 
-    return render(request, 'routes/route-delete-page.html', context)
+    return render(request, 'shared/base-delete-page.html', context)

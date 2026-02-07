@@ -28,7 +28,9 @@ def vehicle_details(request: HttpRequest, pk: int) -> HttpResponse:
     vehicle = get_object_or_404(Vehicle, pk=pk)
 
     context = {
-        'vehicle': vehicle
+        'vehicle': vehicle,
+        'title': 'Vehicle',
+        'icon': 'images/vehicle_icon.png'
     }
 
     return render(request, 'vehicles/vehicle-details-page.html', context)

@@ -18,10 +18,12 @@ def delivery_point_add(request: HttpRequest) -> HttpResponse:
 
     context = {
         'form': form,
-        'title': 'delivery point'
+        'title': 'Delivery Point',
+        'back_url': 'routes:delivery_points_list',
+        'icon': 'images/delivery_point_icon.png'
     }
 
-    return render(request, 'routes/delivery-point-add-page.html', context)
+    return render(request, 'shared/base-add-page.html', context)
 
 def delivery_points_list(request: HttpRequest) -> HttpResponse:
     delivery_points = DeliveryPoint.objects.all()
@@ -48,7 +50,9 @@ def delivery_point_detail(request: HttpRequest, pk: int) -> HttpResponse:
     delivery_point = get_object_or_404(DeliveryPoint, pk=pk)
 
     context = {
-        'delivery_point':delivery_point
+        'delivery_point':delivery_point,
+        'title': 'Delivery Point',
+        'icon': 'images/delivery_point_icon.png'
     }
     return render(request, 'routes/delivery-point-details-page.html', context)
 
@@ -67,11 +71,13 @@ def delivery_point_edit(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'delivery_point': delivery_point,
-        'title': 'delivery point'
+        'title': 'Delivery Point',
+        'id': delivery_point.id,
+        'back_url': 'routes:delivery_point_details',
+        'icon': 'images/delivery_point_icon.png'
     }
 
-    return render(request, 'routes/delivery-point-edit-page.html', context)
+    return render(request, 'shared/base-edit-page.html', context)
 
 def delivery_point_delete(request: HttpRequest, pk: int) -> HttpResponse:
     delivery_point = get_object_or_404(DeliveryPoint, pk=pk)
@@ -88,8 +94,10 @@ def delivery_point_delete(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'delivery_point': delivery_point,
-        'title': 'delivery point'
+        'title': 'Delivery Point',
+        'id': delivery_point.id,
+        'back_url': 'routes:delivery_point_details',
+        'icon': 'images/delivery_point_icon.png'
     }
 
-    return render(request, 'routes/delivery-point-delete-page.html', context)
+    return render(request, 'shared/base-delete-page.html', context)

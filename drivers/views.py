@@ -4,12 +4,12 @@ from django.shortcuts import render, get_object_or_404
 from drivers.forms import DriverSearchAndSortForm
 from drivers.models import Driver
 
-
-# Create your views here.
 def driver_details(request: HttpRequest, pk: int) -> HttpResponse:
     driver = get_object_or_404(Driver, pk = pk)
     context = {
-        "driver": driver
+        "driver": driver,
+        'title': 'Driver',
+        'icon': 'images/driver_icon.png'
     }
     return render(request, 'drivers/driver-details-page.html', context)
 

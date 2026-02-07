@@ -18,9 +18,11 @@ def assignment_add(request: HttpRequest) -> HttpResponse:
 
     context = {
         'form': form,
-        'title': 'assignment'
+        'title': 'Assignment',
+        'back_url': 'routes:assignment_list',
+        'icon': 'images/assignment_icon.png'
     }
-    return render(request, 'routes/assignment-add-page.html', context)
+    return render(request, 'shared/base-add-page.html', context)
 
 def assignment_list(request: HttpRequest) -> HttpResponse:
     assignments = Assignment.objects.all().order_by('assignment_start')
@@ -51,7 +53,9 @@ def assignment_detail(request: HttpRequest, pk: int) -> HttpResponse:
     assignment = get_object_or_404(Assignment, pk=pk)
 
     context = {
-        'assignment': assignment
+        'assignment': assignment,
+        'title': 'Assignment',
+        'icon': 'images/assignment_icon.png'
     }
     return render(request, 'routes/assignment-details-page.html', context)
 
@@ -70,11 +74,13 @@ def assignment_edit(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'assignment': assignment,
-        'title': 'assignment'
+        'title': 'Assignment',
+        'id': assignment.id,
+        'back_url': 'routes:assignment_details',
+        'icon': 'images/assignment_icon.png'
     }
 
-    return render(request, 'routes/assignment-edit-page.html', context)
+    return render(request, 'shared/base-edit-page.html', context)
 
 def assignment_delete(request: HttpRequest, pk: int) -> HttpResponse:
     assignment = get_object_or_404(Assignment, pk=pk)
@@ -91,8 +97,10 @@ def assignment_delete(request: HttpRequest, pk: int) -> HttpResponse:
 
     context = {
         'form': form,
-        'assignment': assignment,
-        'title': 'assignment'
+        'title': 'Assignment',
+        'id': assignment.id,
+        'back_url': 'routes:assignment_details',
+        'icon': 'images/assignment_icon.png'
     }
 
-    return render(request, 'routes/assignment-delete-page.html', context)
+    return render(request, 'shared/base-delete-page.html', context)
