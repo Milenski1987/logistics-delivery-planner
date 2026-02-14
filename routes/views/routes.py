@@ -1,38 +1,27 @@
-from django.db.models import Q
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render, get_object_or_404, redirect
-
+from typing import Any, Dict
+from django.db.models import Q, QuerySet
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from common.forms import SearchForm
+from common.mixins import ModifyFormData
 from routes.forms.routes import RouteDeleteForm, RouteAddForm, RouteEditForm
+from routes.mixins import RouteContextMixin
 from routes.models import Route
 
 
-def route_add(request: HttpRequest) -> HttpResponse:
-    form = RouteAddForm(request.POST or None)
+class RouteListView(RouteContextMixin, ModifyFormData, ListView, FormView):
+    model = Route
+    template_name = 'routes/routes-list-page.html'
+    context_object_name = 'routes'
+    form_class = SearchForm
 
-    if request.method == 'POST':
-        if form.is_valid():
-            route = form.save()
 
-            return redirect('routes:route_details', pk=route.id)
+    def get_queryset(self) -> QuerySet:
+        queryset = super().get_queryset()
+        search_by = self.request.GET.get('search', '')
 
-    context = {
-        'form': form,
-        'title': 'Route',
-        'back_url': 'routes:routes_list',
-        'icon': 'images/route_icon.png'
-    }
-
-    return render(request, 'shared/base-add-page.html', context)
-
-def routes_list(request: HttpRequest) -> HttpResponse:
-    routes = Route.objects.all()
-    form = SearchForm(request.GET or None)
-
-    if request.method == 'GET':
-        if form.is_valid():
-            search_by = form.cleaned_data['search']
-            routes = Route.objects.filter(
+        if search_by:
+            queryset = queryset.filter(
                 Q(name__icontains=search_by)
                 |
                 Q(start_location__icontains=search_by)
@@ -40,65 +29,48 @@ def routes_list(request: HttpRequest) -> HttpResponse:
                 Q(end_location__icontains=search_by)
             )
 
-    context = {
-        'routes': routes,
-        'form':form
-    }
+        return queryset
 
-    return render(request, 'routes/routes-list-page.html', context)
 
-def route_detail(request: HttpRequest, pk: int) -> HttpResponse:
-    route = get_object_or_404(Route, pk=pk)
+class RouteDetailsView(RouteContextMixin, DetailView):
+    model = Route
+    template_name = 'routes/route-details-page.html'
 
-    context = {
-        'route': route,
-        'title': 'Route',
-        'icon': 'images/route_icon.png'
-    }
 
-    return render(request, 'routes/route-details-page.html', context)
+class RouteCreateView(RouteContextMixin, CreateView):
+    model = Route
+    template_name = 'shared/base-add-page.html'
+    form_class = RouteAddForm
 
-def route_edit(request: HttpRequest, pk: int) -> HttpResponse:
-    route = get_object_or_404(Route, pk=pk)
-    form = RouteEditForm(
-        request.POST or None,
-        instance=route
-    )
+    def get_success_url(self) -> str:
+        return reverse('routes:route_details', kwargs={'pk': self.object.pk})
 
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
 
-            return redirect('routes:route_details', pk=pk)
+class RouteUpdateView(RouteContextMixin, UpdateView):
+    model = Route
+    template_name = 'shared/base-edit-page.html'
+    form_class = RouteEditForm
 
-    context = {
-        'form': form,
-        'title': 'Route',
-        'id': route.id,
-        'back_url': 'routes:route_details',
-        'icon': 'images/route_icon.png'
-    }
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'routes:route_details'
+        context['id'] = self.get_object().pk
 
-    return render(request, 'shared/base-edit-page.html', context)
+        return context
 
-def route_delete(request: HttpRequest, pk: int) -> HttpResponse:
-    route = get_object_or_404(Route, pk=pk)
-    form = RouteDeleteForm(
-        request.POST or None,
-        instance = route
-    )
+    def get_success_url(self) -> str:
+        return reverse('routes:route_details', kwargs={'pk': self.object.pk})
 
-    if request.method == "POST":
-        if form.is_valid():
-            route.delete()
-            return redirect('routes:routes_list')
 
-    context = {
-        'form': form,
-        'title': 'Route',
-        'id':route.id,
-        'back_url': 'routes:route_details',
-        'icon': 'images/route_icon.png'
-    }
+class RouteDeleteView(RouteContextMixin, DeleteView):
+    model = Route
+    template_name = 'shared/base-delete-page.html'
+    success_url = reverse_lazy('routes:routes_list')
 
-    return render(request, 'shared/base-delete-page.html', context)
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'routes:route_details'
+        context['id'] = self.get_object().pk
+        context['form'] = RouteDeleteForm(instance=self.object)
+
+        return context

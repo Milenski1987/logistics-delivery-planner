@@ -1,38 +1,26 @@
-from django.db.models import Q
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render, get_object_or_404, redirect
-
+from typing import Dict, Any
+from django.db.models import Q, QuerySet
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from common.forms import SearchForm
+from common.mixins import ModifyFormData
 from routes.forms.delivery_points import DeliveryPointDeleteForm, DeliveryPointAddForm, DeliveryPointEditForm
+from routes.mixins import DeliveryPointContextMixin
 from routes.models import DeliveryPoint
 
 
-def delivery_point_add(request: HttpRequest) -> HttpResponse:
-    form = DeliveryPointAddForm(request.POST or None)
+class DeliveryPointListView(DeliveryPointContextMixin,ModifyFormData ,ListView, FormView):
+    model = DeliveryPoint
+    template_name = 'routes/delivery-points-list-page.html'
+    context_object_name = 'delivery_points'
+    form_class = SearchForm
 
-    if request.method == 'POST':
-        if form.is_valid():
-            delivery_point = form.save()
+    def get_queryset(self) -> QuerySet:
+        queryset= super().get_queryset()
+        search_by = self.request.GET.get('search', '')
 
-            return redirect('routes:delivery_point_details', pk=delivery_point.id)
-
-    context = {
-        'form': form,
-        'title': 'Delivery Point',
-        'back_url': 'routes:delivery_points_list',
-        'icon': 'images/delivery_point_icon.png'
-    }
-
-    return render(request, 'shared/base-add-page.html', context)
-
-def delivery_points_list(request: HttpRequest) -> HttpResponse:
-    delivery_points = DeliveryPoint.objects.all()
-    form = SearchForm(request.GET or None)
-
-    if request.method == "GET":
-        if form.is_valid():
-            search_by = form.cleaned_data['search']
-            delivery_points = DeliveryPoint.objects.filter(
+        if search_by:
+            queryset = queryset.filter(
                 Q(name__icontains=search_by)
                 |
                 Q(address__icontains=search_by)
@@ -40,64 +28,52 @@ def delivery_points_list(request: HttpRequest) -> HttpResponse:
                 Q(city__icontains=search_by)
             )
 
-    context={
-        'delivery_points':delivery_points,
-        'form': form
-    }
-    return render(request, 'routes/delivery-points-list-page.html', context)
+        return queryset
 
-def delivery_point_detail(request: HttpRequest, pk: int) -> HttpResponse:
-    delivery_point = get_object_or_404(DeliveryPoint, pk=pk)
 
-    context = {
-        'delivery_point':delivery_point,
-        'title': 'Delivery Point',
-        'icon': 'images/delivery_point_icon.png'
-    }
-    return render(request, 'routes/delivery-point-details-page.html', context)
+class DeliveryPointDetailsView(DeliveryPointContextMixin, DetailView):
+    model = DeliveryPoint
+    template_name = 'routes/delivery-point-details-page.html'
+    context_object_name = 'delivery_point'
 
-def delivery_point_edit(request: HttpRequest, pk: int) -> HttpResponse:
-    delivery_point = get_object_or_404(DeliveryPoint, pk=pk)
-    form = DeliveryPointEditForm(
-        request.POST or None,
-        instance=delivery_point
-    )
 
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+class DeliveryPointCreateView(DeliveryPointContextMixin, CreateView):
+    model = DeliveryPoint
+    form_class = DeliveryPointAddForm
+    context_object_name = 'delivery_point'
+    template_name = 'shared/base-add-page.html'
 
-            return redirect('routes:delivery_point_details', pk=pk)
+    def get_success_url(self) -> str:
+        return reverse('routes:delivery_point_details', kwargs={'pk': self.object.pk})
 
-    context = {
-        'form': form,
-        'title': 'Delivery Point',
-        'id': delivery_point.id,
-        'back_url': 'routes:delivery_point_details',
-        'icon': 'images/delivery_point_icon.png'
-    }
 
-    return render(request, 'shared/base-edit-page.html', context)
+class DeliveryPointUpdateView(DeliveryPointContextMixin, UpdateView):
+    model = DeliveryPoint
+    context_object_name = 'delivery_point'
+    template_name = 'shared/base-edit-page.html'
+    form_class = DeliveryPointEditForm
 
-def delivery_point_delete(request: HttpRequest, pk: int) -> HttpResponse:
-    delivery_point = get_object_or_404(DeliveryPoint, pk=pk)
-    form = DeliveryPointDeleteForm(
-        request.POST or None,
-        instance=delivery_point
-    )
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'routes:delivery_point_details'
+        context['id'] = self.get_object().pk
 
-    if request.method == 'POST':
-        if form.is_valid():
-            delivery_point.delete()
+        return context
 
-            return redirect('routes:delivery_points_list')
+    def get_success_url(self) -> str:
+        return reverse('routes:delivery_point_details', kwargs={'pk': self.object.pk})
 
-    context = {
-        'form': form,
-        'title': 'Delivery Point',
-        'id': delivery_point.id,
-        'back_url': 'routes:delivery_point_details',
-        'icon': 'images/delivery_point_icon.png'
-    }
 
-    return render(request, 'shared/base-delete-page.html', context)
+class DeliveryPointDeleteView(DeliveryPointContextMixin, DeleteView):
+    model = DeliveryPoint
+    template_name = 'shared/base-delete-page.html'
+    success_url = reverse_lazy('routes:delivery_points_list')
+
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'routes:delivery_point_details'
+        context['id'] = self.get_object().pk
+        context['form'] = DeliveryPointDeleteForm(instance=self.object)
+
+        return context

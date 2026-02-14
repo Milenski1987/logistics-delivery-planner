@@ -1,32 +1,32 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, get_object_or_404
-
+from django.db.models import QuerySet
+from django.views.generic import ListView, FormView, DetailView
+from common.mixins import ModifyFormData
 from drivers.forms import DriverSearchAndSortForm
+from drivers.mixins import DriverContextMixin
 from drivers.models import Driver
 
-def driver_details(request: HttpRequest, pk: int) -> HttpResponse:
-    driver = get_object_or_404(Driver, pk = pk)
-    context = {
-        "driver": driver,
-        'title': 'Driver',
-        'icon': 'images/driver_icon.png'
-    }
-    return render(request, 'drivers/driver-details-page.html', context)
 
-def drivers_list(request: HttpRequest) -> HttpResponse:
-    form = DriverSearchAndSortForm(request.GET or None)
-    drivers = Driver.objects.all()
+class DriverListView(DriverContextMixin,ModifyFormData ,ListView, FormView):
+    model = Driver
+    template_name = 'drivers/drivers-list-page.html'
+    context_object_name = 'drivers'
+    form_class = DriverSearchAndSortForm
 
-    if request.method == 'GET':
-        if form.is_valid():
-            search_by = form.cleaned_data['search']
-            sort_by = form.cleaned_data['sort']
+    def get_queryset(self) -> QuerySet:
+        queryset = super().get_queryset()
 
-            drivers = Driver.objects.filter(full_name__icontains=search_by).order_by(sort_by)
+        search_by = self.request.GET.get('search', '')
+        sort_by = self.request.GET.get('sort', '')
 
-    context = {
-        'drivers':drivers,
-        'form': form
-    }
+        if 'search' in self.request.GET:
+            queryset = queryset.filter(full_name__icontains=search_by)
 
-    return render(request, 'drivers/drivers-list-page.html', context)
+        if 'sort' in self.request.GET:
+            queryset = queryset.order_by(sort_by)
+
+        return queryset
+
+
+class DriverDetailView(DriverContextMixin, DetailView):
+    model = Driver
+    template_name = 'drivers/driver-details-page.html'

@@ -1,36 +1,32 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, get_object_or_404
-
+from django.db.models import QuerySet
+from django.views.generic import ListView, FormView, DetailView
+from common.mixins import ModifyFormData
 from vehicles.forms import VehicleSearchAndSortForm
+from vehicles.mixins import VehicleContextMixin
 from vehicles.models import Vehicle
 
 
-# Create your views here.
-def vehicles_list(request: HttpRequest) -> HttpResponse:
-    vehicles = Vehicle.objects.all()
-    form = VehicleSearchAndSortForm(request.GET or None)
+class VehicleListView(VehicleContextMixin,ModifyFormData ,ListView, FormView):
+    model = Vehicle
+    template_name = 'vehicles/vehicles-list-page.html'
+    context_object_name = 'vehicles'
+    form_class = VehicleSearchAndSortForm
 
-    if request.method == 'GET':
-        if form.is_valid():
-            search_by = form.cleaned_data['search']
-            sort_by = form.cleaned_data['sort']
+    def get_queryset(self) -> QuerySet:
+        queryset = super().get_queryset()
 
-            vehicles = Vehicle.objects.filter(make__icontains=search_by).order_by(sort_by)
+        search_by = self.request.GET.get('search', '')
+        sort_by = self.request.GET.get('sort', '')
 
-    context = {
-        'form': form,
-        'vehicles': vehicles
-    }
+        if search_by:
+            queryset = queryset.filter(make__icontains=search_by)
 
-    return render(request, 'vehicles/vehicles-list-page.html', context)
+        if sort_by:
+            queryset = queryset.order_by(sort_by)
 
-def vehicle_details(request: HttpRequest, pk: int) -> HttpResponse:
-    vehicle = get_object_or_404(Vehicle, pk=pk)
+        return queryset
 
-    context = {
-        'vehicle': vehicle,
-        'title': 'Vehicle',
-        'icon': 'images/vehicle_icon.png'
-    }
 
-    return render(request, 'vehicles/vehicle-details-page.html', context)
+class VehicleDetailView(VehicleContextMixin, DetailView):
+    model = Vehicle
+    template_name = 'vehicles/vehicle-details-page.html'

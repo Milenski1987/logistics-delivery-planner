@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
-from django.http import Http404
+from django.views.generic import TemplateView
 
-def home_page(request: HttpRequest) -> HttpResponse:
-    return render(request, 'common/home-page.html')
 
+class HomePageView(TemplateView):
+    template_name = 'common/home-page.html'

@@ -1,37 +1,27 @@
-from django.db.models import Q
-from django.http import HttpResponse, HttpRequest
-from django.shortcuts import render, get_object_or_404, redirect
-
+from typing import Any, Dict
+from django.db.models import Q, QuerySet
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from common.forms import SearchForm
+from common.mixins import ModifyFormData
 from routes.forms.assignments import AssignmentDeleteForm, AssignmentAddForm, AssignmentEditForm
+from routes.mixins import AssignmentContextMixin
 from routes.models import Assignment
 
 
-def assignment_add(request: HttpRequest) -> HttpResponse:
-    form = AssignmentAddForm(request.POST or None)
+class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormView):
+    model = Assignment
+    template_name = 'routes/assignments-list-page.html'
+    context_object_name = 'assignments'
+    form_class = SearchForm
 
-    if request.method == 'POST':
-        if form.is_valid():
-            assignment = form.save()
 
-            return redirect('routes:assignment_details', pk=assignment.id)
+    def get_queryset(self) -> QuerySet:
+        queryset = super().get_queryset()
+        search_by = self.request.GET.get('search', '')
 
-    context = {
-        'form': form,
-        'title': 'Assignment',
-        'back_url': 'routes:assignment_list',
-        'icon': 'images/assignment_icon.png'
-    }
-    return render(request, 'shared/base-add-page.html', context)
-
-def assignment_list(request: HttpRequest) -> HttpResponse:
-    assignments = Assignment.objects.all().order_by('assignment_start')
-    form = SearchForm(request.GET or None)
-
-    if request.method == 'GET':
-        if form.is_valid():
-            search_by = form.cleaned_data['search']
-            assignments = Assignment.objects.filter(
+        if search_by:
+            queryset = queryset.filter(
                 Q(route__name__icontains=search_by)
                 |
                 Q(route__points_for_delivery__name__icontains=search_by)
@@ -41,66 +31,53 @@ def assignment_list(request: HttpRequest) -> HttpResponse:
                 Q(vehicle__make__icontains=search_by)
             ).order_by('assignment_start')
 
-    context = {
-        'assignments': assignments,
-        'form': form,
-        'title': 'assignment'
-    }
+        return queryset
 
-    return render(request, 'routes/assignments-list-page.html', context)
 
-def assignment_detail(request: HttpRequest, pk: int) -> HttpResponse:
-    assignment = get_object_or_404(Assignment, pk=pk)
+class AssignmentDetailsView(AssignmentContextMixin, DetailView):
+    model = Assignment
+    template_name = 'routes/assignment-details-page.html'
 
-    context = {
-        'assignment': assignment,
-        'title': 'Assignment',
-        'icon': 'images/assignment_icon.png'
-    }
-    return render(request, 'routes/assignment-details-page.html', context)
 
-def assignment_edit(request: HttpRequest, pk: int) -> HttpResponse:
-    assignment = get_object_or_404(Assignment, pk=pk)
-    form = AssignmentEditForm(
-        request.POST or None,
-        instance=assignment
-    )
+class AssignmentCreateView(AssignmentContextMixin, CreateView):
+    model = Assignment
+    template_name = 'shared/base-add-page.html'
+    form_class = AssignmentAddForm
 
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
+    def get_success_url(self) -> str:
+        return reverse('routes:assignment_details', kwargs={'pk': self.object.pk})
 
-            return redirect('routes:assignment_details', pk=pk)
 
-    context = {
-        'form': form,
-        'title': 'Assignment',
-        'id': assignment.id,
-        'back_url': 'routes:assignment_details',
-        'icon': 'images/assignment_icon.png'
-    }
+class AssignmentUpdateView(AssignmentContextMixin, UpdateView):
+    model = Assignment
+    template_name = 'shared/base-edit-page.html'
+    form_class = AssignmentEditForm
 
-    return render(request, 'shared/base-edit-page.html', context)
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'routes:assignment_details'
+        context['id'] = self.get_object().pk
 
-def assignment_delete(request: HttpRequest, pk: int) -> HttpResponse:
-    assignment = get_object_or_404(Assignment, pk=pk)
-    form = AssignmentDeleteForm(
-        request.POST or None,
-        instance=assignment
-    )
+        return context
 
-    if request.method == "POST":
-        if form.is_valid():
-            assignment.delete()
+    def get_success_url(self) -> str:
+        return reverse('routes:assignment_details', kwargs={'pk': self.object.pk})
 
-            return redirect('routes:assignment_list')
 
-    context = {
-        'form': form,
-        'title': 'Assignment',
-        'id': assignment.id,
-        'back_url': 'routes:assignment_details',
-        'icon': 'images/assignment_icon.png'
-    }
+class AssignmentDeleteView(AssignmentContextMixin, DeleteView):
+    model = Assignment
+    template_name = 'shared/base-delete-page.html'
+    success_url = reverse_lazy('routes:assignment_list')
 
-    return render(request, 'shared/base-delete-page.html', context)
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'routes:assignment_details'
+        context['id'] = self.get_object().pk
+        context['form'] = AssignmentDeleteForm(instance=self.object)
+
+        return context
+
+
+
+
+
