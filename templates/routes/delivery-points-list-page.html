@@ -4,7 +4,7 @@
 
 <div class="flex-fill py-5">
     <div class="container">
-        <div class="row justify-content-center mb-5">
+        <div class="row justify-content-center mb-3">
             <div class="col-md-6">
                 <form>
                     <div class="input-group">
@@ -15,6 +15,11 @@
                     </div>
                 </form>
             </div>
+        <div class="text-center mb-1">
+            <a href="{% url 'routes:delivery_point_add' %}" class="btn btn-success border-warning-subtle rounded-5 px-5 mt-5">
+                Add Delivery Point
+            </a>
+        </div>
         </div>
         {% if delivery_points %}
             <div class="row g-4 justify-content-center">
@@ -33,8 +38,7 @@
                                 </div>
                             </div>
                             <div class="ms-auto mt-2 mt-md-0">
-                                <a href="{% url 'routes:delivery_point_details' pk=point.id %}"
-                                   class="btn btn-success rounded-5">
+                                <a href="{% url 'routes:delivery_point_details' pk=point.id %}" class="btn btn-success rounded-5">
                                     Details
                                 </a>
                             </div>
@@ -43,12 +47,10 @@
                 {% endfor %}
             </div>
         {% else %}
-            <h2 class="text-center">No Delivery Points.</h2>
+            <div class="bg-warning-subtle border border-success border-4 rounded-5 shadow p-2 mt-2 align-items-center text-center" style="max-width: 800px; margin-left: auto; margin-right: auto;">
+                <h2 class="text-dark display-4 fw-bold m-0">Delivery Points not found!</h2>
+            </div>
         {% endif %}
-        <div class="text-center mb-4">
-            <a href="{% url 'routes:delivery_point_add' %}" class="btn btn-success border-warning-subtle rounded-5 px-5 mt-5">Add New Delivery Point</a>
-        </div>
     </div>
 </div>
-
 {% endblock %}
