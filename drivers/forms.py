@@ -3,7 +3,6 @@ from common.forms import SearchForm
 
 
 class DriverSearchAndSortForm(SearchForm):
-
     sort = forms.ChoiceField(
         required=False,
         choices=[
