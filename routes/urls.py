@@ -1,35 +1,36 @@
 from django.urls import path, include
 from routes import views
 
+
 app_name = 'routes'
 
 assignments_urls = [
-    path('add/', views.assignment_add, name='assignment_add'),
-    path('', views.assignment_list, name='assignment_list'),
+    path('add/', views.AssignmentCreateView.as_view(), name='assignment_add'),
+    path('', views.AssignmentListView.as_view(), name='assignment_list'),
     path('<int:pk>/', include([
-        path('', views.assignment_detail, name='assignment_details'),
-        path('edit/', views.assignment_edit, name='assignment_edit'),
-        path('delete/', views.assignment_delete, name='assignment_delete')
+        path('', views.AssignmentDetailsView.as_view(), name='assignment_details'),
+        path('edit/', views.AssignmentUpdateView.as_view(), name='assignment_edit'),
+        path('delete/', views.AssignmentDeleteView.as_view(), name='assignment_delete')
     ]))
 ]
 
 routes_urls = [
-    path('add/', views.route_add, name='route_add'),
-    path('', views.routes_list, name='routes_list'),
+    path('add/', views.RouteCreateView.as_view(), name='route_add'),
+    path('', views.RouteListView.as_view(), name='routes_list'),
     path('<int:pk>/', include([
-        path('', views.route_detail, name='route_details'),
-        path('edit/', views.route_edit, name='route_edit'),
-        path('delete/', views.route_delete, name='route_delete')
+        path('', views.RouteDetailsView.as_view(), name='route_details'),
+        path('edit/', views.RouteUpdateView.as_view(), name='route_edit'),
+        path('delete/', views.RouteDeleteView.as_view(), name='route_delete')
     ]))
 ]
 
 delivery_points_urls = [
-    path('add/', views.delivery_point_add, name='delivery_point_add'),
-    path('', views.delivery_points_list, name='delivery_points_list'),
+    path('add/', views.DeliveryPointCreateView.as_view(), name='delivery_point_add'),
+    path('', views.DeliveryPointListView.as_view(), name='delivery_points_list'),
     path('<int:pk>/', include([
-        path('', views.delivery_point_detail, name='delivery_point_details'),
-        path('edit/', views.delivery_point_edit, name='delivery_point_edit'),
-        path('delete/', views.delivery_point_delete, name='delivery_point_delete')
+        path('', views.DeliveryPointDetailsView.as_view(), name='delivery_point_details'),
+        path('edit/', views.DeliveryPointUpdateView.as_view(), name='delivery_point_edit'),
+        path('delete/', views.DeliveryPointDeleteView.as_view(), name='delivery_point_delete')
     ]))
 ]
 
