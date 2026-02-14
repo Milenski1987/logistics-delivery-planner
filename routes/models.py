@@ -23,6 +23,7 @@ class DeliveryPoint(models.Model):
     def __str__(self):
         return f'{self.name} - {self.city}'
 
+
 class Route(models.Model):
     name = models.CharField(
         max_length= 30
@@ -41,8 +42,7 @@ class Route(models.Model):
     points_for_delivery = models.ManyToManyField(
         'DeliveryPoint',
         related_name='delivery_point_routes',
-        blank=True,
-        null=True
+        blank=True
     )
 
     def __str__(self):
@@ -80,5 +80,5 @@ class Assignment(models.Model):
 
     created_at = models.DateTimeField(
         auto_now_add=True,
-        editable=False
+        editable=False,
     )

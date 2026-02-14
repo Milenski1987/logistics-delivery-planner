@@ -1,10 +1,8 @@
 from django.core.validators import RegexValidator
 from django.db import models
-
 from vehicles.choices import VehicleTypeChoices
 
 
-# Create your models here.
 class Vehicle(models.Model):
     registration_number = models.CharField(
         max_length=8,

@@ -1,10 +1,9 @@
 from datetime import date
-
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
 
-def driver_years_validator(value):
+def driver_years_validator(value: int) -> None:
     current_date = date.today()
     driver_bday = value
     age = current_date.year - driver_bday.year
@@ -17,13 +16,13 @@ def driver_years_validator(value):
 
 @deconstructible
 class PhoneNumberValidator:
-    def __init__(self, length, length_message, contain_message) -> None:
+    def __init__(self, length: int, length_message: str, contain_message: str) -> None:
         self.length = length
         self.length_message = length_message
         self.contain_message = contain_message
 
 
-    def __call__(self, value) -> None:
+    def __call__(self, value: str) -> None:
         if len(value) != self.length:
             raise ValidationError(self.length_message)
 

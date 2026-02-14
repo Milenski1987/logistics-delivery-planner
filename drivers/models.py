@@ -37,7 +37,6 @@ class Driver(models.Model):
 
     years_of_experience = models.PositiveSmallIntegerField()
 
-
     @property
     def driver_age(self):
         current_year = date.today().year
