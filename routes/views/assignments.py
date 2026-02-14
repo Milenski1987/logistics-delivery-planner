@@ -14,7 +14,7 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
     template_name = 'routes/assignments-list-page.html'
     context_object_name = 'assignments'
     form_class = SearchForm
-
+    paginate_by = 8
 
     def get_queryset(self) -> QuerySet:
         queryset = super().get_queryset()
@@ -29,9 +29,9 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
                 Q(driver__full_name__icontains=search_by)
                 |
                 Q(vehicle__make__icontains=search_by)
-            ).order_by('assignment_start')
+            )
 
-        return queryset
+        return queryset.order_by('assignment_start')
 
 
 class AssignmentDetailsView(AssignmentContextMixin, DetailView):
