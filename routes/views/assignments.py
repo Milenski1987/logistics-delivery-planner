@@ -17,7 +17,9 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
     paginate_by = 6
 
     def get_queryset(self) -> QuerySet:
-        queryset = super().get_queryset()
+        queryset = (super().get_queryset()
+                    .select_related('route', 'driver', 'vehicle')
+                    .prefetch_related('route__points_for_delivery'))
         search_by = self.request.GET.get('search', '')
 
         if search_by:
