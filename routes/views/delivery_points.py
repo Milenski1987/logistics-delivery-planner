@@ -14,7 +14,7 @@ class DeliveryPointListView(DeliveryPointContextMixin,ModifyFormData ,ListView, 
     template_name = 'routes/delivery-points-list-page.html'
     context_object_name = 'delivery_points'
     form_class = SearchForm
-    paginate_by = 8
+    paginate_by = 10
 
     def get_queryset(self) -> QuerySet:
         queryset= super().get_queryset()

@@ -11,7 +11,7 @@ class DriverListView(DriverContextMixin,ModifyFormData ,ListView, FormView):
     template_name = 'drivers/drivers-list-page.html'
     context_object_name = 'drivers'
     form_class = DriverSearchAndSortForm
-    paginate_by = 12
+    paginate_by = 15
 
     def get_queryset(self) -> QuerySet:
         queryset = super().get_queryset()

@@ -1,6 +1,7 @@
 from typing import Any, Dict
 from django.db.models import Q, QuerySet
 from django.urls import reverse, reverse_lazy
+from django.utils.timezone import now
 from django.views.generic import ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from common.forms import SearchForm
 from common.mixins import ModifyFormData
@@ -18,6 +19,7 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
 
     def get_queryset(self) -> QuerySet:
         queryset = (super().get_queryset()
+                    .filter(assignment_start__gt=now().today())
                     .select_related('route', 'driver', 'vehicle')
                     .prefetch_related('route__points_for_delivery'))
         search_by = self.request.GET.get('search', '')
