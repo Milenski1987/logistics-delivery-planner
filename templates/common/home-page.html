@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="bg-warning-subtle border border-success border-4 rounded-5 shadow p-4 mt-4 w-auto mx-auto d-block text-center">
+    <div class=" border border-success border-4 rounded-5 shadow p-4 mt-4 w-auto mx-auto d-block text-center">
         <h1 class="text-dark display-4 fw-bold m-0">RouteMaster</h1>
     </div>
     <div class="container mt-5">
@@ -40,9 +40,9 @@
                     <div class="card-body">
                         <h6 class="text-muted">Top Driver</h6>
                         {% if driver %}
-                            <h5 class="fw-bold text-success">
+                            <h3 class="fw-bold text-success">
                                 {{ driver.full_name }}
-                            </h5>
+                            </h3>
                             <h5 class="text-success">
                                 {{ driver.assignment_count }} courses
                             </h5>
@@ -59,9 +59,9 @@
                     <div class="card-body">
                         <h6 class="text-muted">Top Vehicle</h6>
                         {% if vehicle %}
-                            <h5 class="fw-bold text-success">
+                            <h3 class="fw-bold text-success">
                                 {{ vehicle.make }} - {{ vehicle.registration_number }}
-                            </h5>
+                            </h3>
                             <h5 class="text-success">
                                 {{ vehicle.assignment_count }} courses
                             </h5>
