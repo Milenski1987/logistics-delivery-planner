@@ -8,7 +8,7 @@ from routes.models import Route
 class BaseRouteForm(forms.ModelForm):
     class Meta:
         model = Route
-        fields = '__all__'
+        exclude = ['created_at', 'updated_at']
         widgets = {
             'name': forms.TextInput(
                 attrs={
@@ -34,6 +34,7 @@ class BaseRouteForm(forms.ModelForm):
         }
 
         help_texts={
+            'distance_km': 'Only integer numbers',
             'points_for_delivery': 'You can choose multiple points for delivery'
         }
 
@@ -74,6 +75,18 @@ class BaseRouteForm(forms.ModelForm):
         if not location.isalpha():
             raise ValidationError('End location must contain only letters.')
         return location
+
+    def save(self, commit = True):
+        instance = super().save(commit=False)
+        instance.name = instance.name.capitalize()
+        instance.start_location = instance.start_location.capitalize()
+        instance.end_location = instance.end_location.capitalize()
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
 
 
 class RouteDeleteForm(common.mixins.ReadOnlyFieldsMixin, BaseRouteForm):

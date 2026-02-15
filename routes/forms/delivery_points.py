@@ -31,6 +31,10 @@ class BaseDeliveryPointsFrom(forms.ModelForm):
             )
         }
 
+        help_texts = {
+            'description': 'This field is optional'
+        }
+
         error_messages = {
             'name': {
                 'unique': 'Delivery Point with this name already exist!',
@@ -48,6 +52,18 @@ class BaseDeliveryPointsFrom(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.name = instance.name.capitalize()
+        instance.city = instance.city.capitalize()
+
+
+        if commit:
+            instance.save()
+            self.save_m2m()
+
+        return instance
 
 
 class DeliveryPointDeleteForm(common.mixins.ReadOnlyFieldsMixin, BaseDeliveryPointsFrom):

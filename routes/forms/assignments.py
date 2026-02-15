@@ -9,7 +9,7 @@ from routes.models import Assignment
 class BaseAssignmentForm(forms.ModelForm):
     class Meta:
         model = Assignment
-        exclude = ['created_at']
+        exclude = ['created_at', 'updated_at']
         widgets = {
             'assignment_start':forms.DateInput(
                 attrs={
@@ -23,15 +23,22 @@ class BaseAssignmentForm(forms.ModelForm):
             )
         }
 
+        help_texts = {
+            'notes': 'This field is optional'
+        }
+
         error_messages = {
             'route':{
-                'required': 'Please choose a route!'
+                'required': 'Please choose a route!',
+                'invalid': 'Please choose a route'
             },
             'driver':{
-                'required': 'Please choose a driver!'
+                'required': 'Please choose a driver!',
+                'invalid': 'Please choose a driver'
             },
             'vehicle':{
-                'required': 'Please choose a vehicle!'
+                'required': 'Please choose a vehicle!',
+                'invalid': 'Please choose a vehicle'
             }
         }
 

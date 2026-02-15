@@ -14,7 +14,7 @@ class RouteListView(RouteContextMixin, ModifyFormData, ListView, FormView):
     template_name = 'routes/routes-list-page.html'
     context_object_name = 'routes'
     form_class = SearchForm
-    paginate_by = 9
+    paginate_by = 12
 
 
     def get_queryset(self) -> QuerySet:

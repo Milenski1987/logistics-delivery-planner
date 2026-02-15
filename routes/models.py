@@ -1,4 +1,5 @@
 from django.db import models
+from routes.mixins import TimeStampMixin
 
 
 class DeliveryPoint(models.Model):
@@ -24,7 +25,7 @@ class DeliveryPoint(models.Model):
         return f'{self.name} - {self.city}'
 
 
-class Route(models.Model):
+class Route(TimeStampMixin):
     name = models.CharField(
         max_length= 30
     )
@@ -49,7 +50,7 @@ class Route(models.Model):
         return f'{self.start_location} - {self.end_location}'
 
 
-class Assignment(models.Model):
+class Assignment(TimeStampMixin):
     route = models.ForeignKey(
         'Route',
         null = True,
@@ -76,9 +77,4 @@ class Assignment(models.Model):
     notes = models.TextField(
         blank=True,
         null=True
-    )
-
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        editable=False,
     )
