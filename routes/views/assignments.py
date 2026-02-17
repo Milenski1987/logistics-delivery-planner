@@ -45,12 +45,12 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
 
 
 class AssignmentDetailsView(AssignmentContextMixin, DetailView):
-    model = Assignment
+    queryset = Assignment.objects.select_related('driver', 'vehicle', 'route').prefetch_related('route__points_for_delivery')
     template_name = 'routes/assignment-details-page.html'
 
 
 class AssignmentCreateView(AssignmentContextMixin, CreateView):
-    model = Assignment
+    queryset = Assignment.objects.select_related('driver', 'vehicle', 'route').prefetch_related('route__points_for_delivery')
     template_name = 'shared/base-add-page.html'
     form_class = AssignmentAddForm
 
@@ -59,7 +59,7 @@ class AssignmentCreateView(AssignmentContextMixin, CreateView):
 
 
 class AssignmentUpdateView(AssignmentContextMixin, UpdateView):
-    model = Assignment
+    queryset = Assignment.objects.select_related('driver', 'vehicle', 'route').prefetch_related('route__points_for_delivery')
     template_name = 'shared/base-edit-page.html'
     form_class = AssignmentEditForm
 

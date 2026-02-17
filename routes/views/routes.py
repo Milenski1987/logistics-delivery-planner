@@ -34,12 +34,13 @@ class RouteListView(RouteContextMixin, ModifyFormData, ListView, FormView):
 
 
 class RouteDetailsView(RouteContextMixin, DetailView):
-    model = Route
+    queryset = Route.objects.prefetch_related('points_for_delivery')
     template_name = 'routes/route-details-page.html'
 
 
+
 class RouteCreateView(RouteContextMixin, CreateView):
-    model = Route
+    queryset = Route.objects.prefetch_related('points_for_delivery')
     template_name = 'shared/base-add-page.html'
     form_class = RouteAddForm
 
@@ -48,7 +49,7 @@ class RouteCreateView(RouteContextMixin, CreateView):
 
 
 class RouteUpdateView(RouteContextMixin, UpdateView):
-    model = Route
+    queryset = Route.objects.prefetch_related('points_for_delivery')
     template_name = 'shared/base-edit-page.html'
     form_class = RouteEditForm
 
