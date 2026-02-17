@@ -16,11 +16,32 @@
                     </div>
                 </form>
             </div>
-        <div class="text-center mb-1">
-            <a href="{% url 'routes:assignment_add' %}" class="btn btn-success border-warning-subtle rounded-5 px-5 mt-5">
-                Create Assignment
-            </a>
-        </div>
+            <div class="text-center mt-4 mb-4">
+                <div class="d-flex justify-content-center gap-4">
+                    <a href="?status=upcoming"
+                       class="btn rounded-5 px-4
+                       {% if request.GET.status != 'completed' %}
+                            bg-warning-subtle text-dark border-success
+                       {% else %}
+                            btn-success border-warning-subtle
+                       {% endif %}">
+                            Upcoming Assignments
+                    </a>
+                    <a href="?status=completed"
+                       class="btn rounded-5 px-4
+                       {% if request.GET.status == 'completed' %}
+                            bg-warning-subtle text-dark border-success
+                       {% else %}
+                            btn-success border-warning-subtle
+                       {% endif %}">
+                            Completed Assignments
+                    </a>
+                    <a href="{% url 'routes:assignment_add' %}"
+                    class="btn btn-success border-warning-subtle rounded-5 px-4">
+                        Create Assignment
+                    </a>
+                </div>
+            </div>
         </div>
         {% if assignments %}
             <div class="row g-4 justify-content-center">

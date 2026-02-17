@@ -18,20 +18,26 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
     paginate_by = 6
 
     def get_queryset(self) -> QuerySet:
-        queryset = (super().get_queryset()
-                    .filter(assignment_start__gt=now().today())
-                    .select_related('route', 'driver', 'vehicle')
-                    .prefetch_related('route__points_for_delivery'))
+        queryset = (
+            super().get_queryset()
+            .select_related('route', 'driver', 'vehicle')
+            .prefetch_related('route__points_for_delivery')
+        )
+
+        status = self.request.GET.get('status', 'upcoming')
+
+        if status == 'completed':
+            queryset = queryset.filter(assignment_start__lt=now().date())
+        else:
+            queryset = queryset.filter(assignment_start__gte=now().date())
+
         search_by = self.request.GET.get('search', '')
 
         if search_by:
             queryset = queryset.filter(
-                Q(route__name__icontains=search_by)
-                |
-                Q(route__points_for_delivery__name__icontains=search_by)
-                |
-                Q(driver__full_name__icontains=search_by)
-                |
+                Q(route__name__icontains=search_by) |
+                Q(route__points_for_delivery__name__icontains=search_by) |
+                Q(driver__full_name__icontains=search_by) |
                 Q(vehicle__make__icontains=search_by)
             )
 
