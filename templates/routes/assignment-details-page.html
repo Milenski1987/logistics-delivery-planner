@@ -1,5 +1,6 @@
 {% extends 'shared/base-details-page.html' %}
 {% load date_convert_filter %}
+{% load calculate_arrival_time %}
 
 {% block logic %}
 <div class="mb-3 p-3 bg-white rounded-4">
@@ -15,8 +16,12 @@
     <p class="mb-0 mt-1">{{ assignment.vehicle }}</p>
 </div>
 <div class="mb-3 p-3 bg-white rounded-4">
-    <strong>Start Date:</strong>
-    <p class="mb-0 mt-1">{{ assignment.assignment_start|date_convert }}</p>
+    <strong>Start Date and Time:</strong>
+    <p class="mb-0 mt-1">{{ assignment.assignment_start|date_convert }}, 8:00</p>
+</div>
+<div class="mb-3 p-3 bg-white rounded-4">
+    <strong>Arrival Date and Time:</strong>
+    <p class="mb-0 mt-1">{% calculate_eta assignment %}</p>
 </div>
 <div class="mb-3 p-3 bg-white rounded-4">
     <strong>Points for delivery:</strong>
