@@ -2,13 +2,15 @@
 {% load static %}
 
 {% block content %}
-    <div class=" border border-success border-4 rounded-5 shadow p-4 mt-4 w-auto mx-auto d-block text-center">
-        <h1 class="text-dark display-4 fw-bold m-0">RouteMaster</h1>
+    <div class="border border-success border-4 rounded-5 shadow p-4 mt-4 w-auto mx-auto d-block text-center">
+        <h1 class="text-dark display-1  m-0" style="font-family: 'Audiowide', sans-serif;">
+            RouteMaster
+        </h1>
     </div>
     <div class="container mt-5">
         <div class="row g-4 text-center">
             <div class="col-md-6 col-lg-3">
-                <div class="card shadow border-0 rounded-4 h-100">
+                <div class="card shadow border-dark border-4 rounded-4 h-100">
                     <div class="card-body">
                         <h6 class="text-muted">Assignments Completed</h6>
                         <h2 class="fw-bold text-success">
@@ -22,9 +24,9 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="card shadow border-0 rounded-4 h-100">
+                <div class="card shadow border-dark border-4 rounded-4 h-100">
                     <div class="card-body">
-                        <h6 class="text-muted">Total Distance</h6>
+                        <h6 class="text-muted">Total Distance Covered</h6>
                         <h2 class="fw-bold text-success">
                             {% if mileage %}
                                 {{ mileage }} km
@@ -36,7 +38,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="card shadow border-0 rounded-4 h-100">
+                <div class="card shadow border-dark border-4 rounded-4 h-100">
                     <div class="card-body">
                         <h6 class="text-muted">Top Driver</h6>
                         {% if driver %}
@@ -55,7 +57,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-3">
-                <div class="card shadow border-0 rounded-4 h-100">
+                <div class="card shadow border-dark border-4 rounded-4 h-100">
                     <div class="card-body">
                         <h6 class="text-muted">Top Vehicle</h6>
                         {% if vehicle %}
