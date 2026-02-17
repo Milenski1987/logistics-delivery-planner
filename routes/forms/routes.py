@@ -30,7 +30,11 @@ class BaseRouteForm(forms.ModelForm):
                     'placeholder': 'Enter Route distance...'
                 }
             ),
-            'points_for_delivery':forms.CheckboxSelectMultiple()
+            'points_for_delivery':forms.CheckboxSelectMultiple(
+                attrs={
+                    'class': 'scrollable-checkboxes'
+                }
+            )
         }
 
         help_texts={
