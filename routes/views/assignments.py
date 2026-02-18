@@ -12,7 +12,7 @@ from routes.models import Assignment
 
 class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormView):
     model = Assignment
-    template_name = 'assignment/assignments-list-page.html'
+    template_name = 'assignment/assignments-list.html'
     context_object_name = 'assignments'
     form_class = SearchForm
     paginate_by = 6
@@ -46,7 +46,7 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
 
 class AssignmentDetailsView(AssignmentContextMixin, DetailView):
     queryset = Assignment.objects.select_related('driver', 'vehicle', 'route').prefetch_related('route__points_for_delivery')
-    template_name = 'assignment/assignment-details-page.html'
+    template_name = 'assignment/assignment-details.html'
 
 
 class AssignmentCreateView(AssignmentContextMixin, CreateView):

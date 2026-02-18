@@ -8,7 +8,7 @@ from vehicles.models import Vehicle
 
 class VehicleListView(VehicleContextMixin,ModifyFormData ,ListView, FormView):
     model = Vehicle
-    template_name = 'vehicle/vehicles-list-page.html'
+    template_name = 'vehicle/vehicles-list.html'
     context_object_name = 'vehicles'
     form_class = VehicleSearchAndSortForm
     paginate_by = 15
@@ -30,4 +30,4 @@ class VehicleListView(VehicleContextMixin,ModifyFormData ,ListView, FormView):
 
 class VehicleDetailView(VehicleContextMixin, DetailView):
     model = Vehicle
-    template_name = 'vehicle/vehicle-details-page.html'
+    template_name = 'vehicle/vehicle-details.html'

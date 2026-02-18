@@ -11,7 +11,7 @@ from routes.models import DeliveryPoint
 
 class DeliveryPointListView(DeliveryPointContextMixin,ModifyFormData ,ListView, FormView):
     model = DeliveryPoint
-    template_name = 'delivery_point/delivery-points-list-page.html'
+    template_name = 'delivery_point/delivery-points-list.html'
     context_object_name = 'delivery_points'
     form_class = SearchForm
     paginate_by = 10
@@ -34,7 +34,7 @@ class DeliveryPointListView(DeliveryPointContextMixin,ModifyFormData ,ListView, 
 
 class DeliveryPointDetailsView(DeliveryPointContextMixin, DetailView):
     model = DeliveryPoint
-    template_name = 'delivery_point/delivery-point-details-page.html'
+    template_name = 'delivery_point/delivery-point-details.html'
     context_object_name = 'delivery_point'
 
 

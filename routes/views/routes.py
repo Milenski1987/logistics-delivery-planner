@@ -11,7 +11,7 @@ from routes.models import Route
 
 class RouteListView(RouteContextMixin, ModifyFormData, ListView, FormView):
     model = Route
-    template_name = 'route/routes-list-page.html'
+    template_name = 'route/routes-list.html'
     context_object_name = 'routes'
     form_class = SearchForm
     paginate_by = 15
@@ -35,7 +35,7 @@ class RouteListView(RouteContextMixin, ModifyFormData, ListView, FormView):
 
 class RouteDetailsView(RouteContextMixin, DetailView):
     queryset = Route.objects.prefetch_related('points_for_delivery')
-    template_name = 'route/route-details-page.html'
+    template_name = 'route/route-details.html'
 
 
 
