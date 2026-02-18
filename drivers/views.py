@@ -8,7 +8,7 @@ from drivers.models import Driver
 
 class DriverListView(DriverContextMixin,ModifyFormData ,ListView, FormView):
     model = Driver
-    template_name = 'drivers/drivers-list-page.html'
+    template_name = 'driver/drivers-list-page.html'
     context_object_name = 'drivers'
     form_class = DriverSearchAndSortForm
     paginate_by = 15
@@ -30,4 +30,4 @@ class DriverListView(DriverContextMixin,ModifyFormData ,ListView, FormView):
 
 class DriverDetailView(DriverContextMixin, DetailView):
     model = Driver
-    template_name = 'drivers/driver-details-page.html'
+    template_name = 'driver/driver-details-page.html'

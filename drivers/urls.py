@@ -2,7 +2,7 @@ from django.urls import path
 from drivers import views
 
 
-app_name = 'drivers'
+app_name = 'driver'
 
 urlpatterns = [
     path('', views.DriverListView.as_view(), name='list'),

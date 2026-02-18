@@ -12,7 +12,7 @@ from routes.models import Assignment
 
 class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormView):
     model = Assignment
-    template_name = 'routes/assignments-list-page.html'
+    template_name = 'assignment/assignments-list-page.html'
     context_object_name = 'assignments'
     form_class = SearchForm
     paginate_by = 6
@@ -46,12 +46,12 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
 
 class AssignmentDetailsView(AssignmentContextMixin, DetailView):
     queryset = Assignment.objects.select_related('driver', 'vehicle', 'route').prefetch_related('route__points_for_delivery')
-    template_name = 'routes/assignment-details-page.html'
+    template_name = 'assignment/assignment-details-page.html'
 
 
 class AssignmentCreateView(AssignmentContextMixin, CreateView):
     queryset = Assignment.objects.select_related('driver', 'vehicle', 'route').prefetch_related('route__points_for_delivery')
-    template_name = 'shared/base-add-page.html'
+    template_name = 'assignment/assignment-create.html'
     form_class = AssignmentAddForm
 
     def get_success_url(self) -> str:
@@ -60,7 +60,7 @@ class AssignmentCreateView(AssignmentContextMixin, CreateView):
 
 class AssignmentUpdateView(AssignmentContextMixin, UpdateView):
     queryset = Assignment.objects.select_related('driver', 'vehicle', 'route').prefetch_related('route__points_for_delivery')
-    template_name = 'shared/base-edit-page.html'
+    template_name = 'assignment/assignment-update.html'
     form_class = AssignmentEditForm
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -76,7 +76,7 @@ class AssignmentUpdateView(AssignmentContextMixin, UpdateView):
 
 class AssignmentDeleteView(AssignmentContextMixin, DeleteView):
     model = Assignment
-    template_name = 'shared/base-delete-page.html'
+    template_name = 'assignment/assignment-delete.html'
     success_url = reverse_lazy('routes:assignment_list')
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:

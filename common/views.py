@@ -8,7 +8,7 @@ from vehicles.models import Vehicle
 
 
 class HomePageView(TemplateView):
-    template_name = 'common/home-page.html'
+    template_name = 'home-page.html'
 
 
     def get_context_data(self, **kwargs):

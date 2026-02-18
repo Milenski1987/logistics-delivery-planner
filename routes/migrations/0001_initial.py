@@ -48,8 +48,8 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('assignment_start', models.DateField()),
                 ('notes', models.TextField(blank=True, null=True)),
-                ('driver', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='driver_assignments', to='drivers.driver')),
-                ('vehicle', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='vehicle_assignments', to='vehicles.vehicle')),
+                ('driver', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='driver_assignments', to='driver.driver')),
+                ('vehicle', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='vehicle_assignments', to='vehicle.vehicle')),
                 ('route', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='route_assignments', to='routes.route')),
             ],
             options={

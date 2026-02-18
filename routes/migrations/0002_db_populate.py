@@ -60,8 +60,8 @@ def generate_phone(existing):
 
 
 def generate_data(apps, schema_editor):
-    Driver = apps.get_model("drivers", "Driver")
-    Vehicle = apps.get_model("vehicles", "Vehicle")
+    Driver = apps.get_model("driver", "Driver")
+    Vehicle = apps.get_model("vehicle", "Vehicle")
     DeliveryPoint = apps.get_model("routes", "DeliveryPoint")
     Route = apps.get_model("routes", "Route")
     Assignment = apps.get_model("routes", "Assignment")
@@ -169,8 +169,8 @@ def generate_data(apps, schema_editor):
 
 
 def reverse_func(apps, schema_editor):
-    Driver = apps.get_model("drivers", "Driver")
-    Vehicle = apps.get_model("vehicles", "Vehicle")
+    Driver = apps.get_model("driver", "Driver")
+    Vehicle = apps.get_model("vehicle", "Vehicle")
     DeliveryPoint = apps.get_model("routes", "DeliveryPoint")
     Route = apps.get_model("routes", "Route")
     Assignment = apps.get_model("routes", "Assignment")

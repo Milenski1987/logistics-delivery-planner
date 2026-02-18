@@ -1,4 +1,4 @@
-{% extends "shared/base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 {% block content %}
 
@@ -47,7 +47,7 @@
                 <h2 class="text-dark display-4 fw-bold m-0">Routes not found!</h2>
             </div>
         {% endif %}
-        {% include 'shared/pagination.html' %}
+        {% include 'common/pagination.html' %}
     </div>
 </div>
 {% endblock %}

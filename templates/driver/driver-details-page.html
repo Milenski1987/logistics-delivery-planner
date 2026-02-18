@@ -1,4 +1,4 @@
-{% extends 'shared/base-details-page.html' %}
+{% extends 'base/base-details-page.html' %}
 {% load date_convert_filter %}
 
 
@@ -24,6 +24,6 @@
     <p class="mb-0 mt-1">{{ driver.phone_number }}</p>
 </div>
 <div class="mt-4 text-center">
-    <a href="{% url 'drivers:list' %}" class="btn btn-dark rounded-5 px-5">Back</a>
+    <a href="{% url 'driver:list' %}" class="btn btn-dark rounded-5 px-5">Back</a>
 </div>
 {% endblock %}

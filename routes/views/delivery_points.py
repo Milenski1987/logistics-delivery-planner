@@ -11,7 +11,7 @@ from routes.models import DeliveryPoint
 
 class DeliveryPointListView(DeliveryPointContextMixin,ModifyFormData ,ListView, FormView):
     model = DeliveryPoint
-    template_name = 'routes/delivery-points-list-page.html'
+    template_name = 'delivery_point/delivery-points-list-page.html'
     context_object_name = 'delivery_points'
     form_class = SearchForm
     paginate_by = 10
@@ -34,7 +34,7 @@ class DeliveryPointListView(DeliveryPointContextMixin,ModifyFormData ,ListView, 
 
 class DeliveryPointDetailsView(DeliveryPointContextMixin, DetailView):
     model = DeliveryPoint
-    template_name = 'routes/delivery-point-details-page.html'
+    template_name = 'delivery_point/delivery-point-details-page.html'
     context_object_name = 'delivery_point'
 
 
@@ -42,7 +42,7 @@ class DeliveryPointCreateView(DeliveryPointContextMixin, CreateView):
     model = DeliveryPoint
     form_class = DeliveryPointAddForm
     context_object_name = 'delivery_point'
-    template_name = 'shared/base-add-page.html'
+    template_name = 'delivery_point/delivery-point-create.html'
 
     def get_success_url(self) -> str:
         return reverse('routes:delivery_point_details', kwargs={'pk': self.object.pk})
@@ -51,7 +51,7 @@ class DeliveryPointCreateView(DeliveryPointContextMixin, CreateView):
 class DeliveryPointUpdateView(DeliveryPointContextMixin, UpdateView):
     model = DeliveryPoint
     context_object_name = 'delivery_point'
-    template_name = 'shared/base-edit-page.html'
+    template_name = 'delivery_point/delivery-point-update.html'
     form_class = DeliveryPointEditForm
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -67,7 +67,7 @@ class DeliveryPointUpdateView(DeliveryPointContextMixin, UpdateView):
 
 class DeliveryPointDeleteView(DeliveryPointContextMixin, DeleteView):
     model = DeliveryPoint
-    template_name = 'shared/base-delete-page.html'
+    template_name = 'delivery_point/delivery-point-delete.html'
     success_url = reverse_lazy('routes:delivery_points_list')
 
 
