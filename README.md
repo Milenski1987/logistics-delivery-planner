@@ -7,8 +7,6 @@
 
 **RouteMaster** is a Django-based web application for managing logistics operations — all from a single, easy-to-use interface.
 
-
-
 ---
 
 ## 📋 Table of Contents
@@ -23,7 +21,6 @@
 - [Running the App](#-running-the-app)
 - [Setting Up PostgreSQL](#-setting-up-postgresql)
 - [Apps Overview](#-apps-overview)
-- [Contributing](#-contributing)
 - [License](#-license)
 
 ---
@@ -301,19 +298,6 @@ The core of the application. Allows planners to create, update and delete Delive
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! To get started:
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Commit your changes: `git commit -m "Add my feature"`
-4. Push to the branch: `git push origin feature/my-feature`
-5. Open a Pull Request
-
-Please make sure your code follows the existing structure and includes relevant tests where applicable.
-
----
 
 ## 📄 License
 
