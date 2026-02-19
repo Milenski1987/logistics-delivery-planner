@@ -60,8 +60,8 @@ def generate_phone(existing):
 
 
 def generate_data(apps, schema_editor):
-    Driver = apps.get_model("driver", "Driver")
-    Vehicle = apps.get_model("vehicle", "Vehicle")
+    Driver = apps.get_model("drivers", "Driver")
+    Vehicle = apps.get_model("vehicles", "Vehicle")
     DeliveryPoint = apps.get_model("routes", "DeliveryPoint")
     Route = apps.get_model("routes", "Route")
     Assignment = apps.get_model("routes", "Assignment")
@@ -75,7 +75,7 @@ def generate_data(apps, schema_editor):
     used_licenses = set()
     used_plates = set()
 
-    for _ in range(120):
+    for _ in range(30):
         birth_year = random.randint(1965, 2007)
 
         driver = Driver.objects.create(
@@ -88,7 +88,7 @@ def generate_data(apps, schema_editor):
         drivers.append(driver)
 
 
-    for _ in range(120):
+    for _ in range(30):
         vehicle = Vehicle.objects.create(
             registration_number=generate_plate(used_plates),
             make=random.choice(VEHICLE_MAKE),
@@ -100,7 +100,7 @@ def generate_data(apps, schema_editor):
         vehicles.append(vehicle)
 
 
-    for i in range(120):
+    for i in range(60):
         point = DeliveryPoint.objects.create(
             name=f"Warehouse {i}",
             address=f"Street {i}",
@@ -110,7 +110,7 @@ def generate_data(apps, schema_editor):
         points.append(point)
 
 
-    for _ in range(120):
+    for _ in range(80):
         start = random.choice(CITIES)
         end = random.choice([city for city in CITIES if city != start])
 
@@ -156,7 +156,7 @@ def generate_data(apps, schema_editor):
                 ])
             )
 
-    for _ in range(50):
+    for _ in range(52):
         past_date = today - timedelta(days=random.randint(1, 90))
         assignments.append(create_assignment(past_date))
 
@@ -169,8 +169,8 @@ def generate_data(apps, schema_editor):
 
 
 def reverse_func(apps, schema_editor):
-    Driver = apps.get_model("driver", "Driver")
-    Vehicle = apps.get_model("vehicle", "Vehicle")
+    Driver = apps.get_model("drivers", "Driver")
+    Vehicle = apps.get_model("vehicles", "Vehicle")
     DeliveryPoint = apps.get_model("routes", "DeliveryPoint")
     Route = apps.get_model("routes", "Route")
     Assignment = apps.get_model("routes", "Assignment")
