@@ -45,9 +45,9 @@
 ## 📸 Screenshots
 
 <table> <tr> <td align="center"> 
-<img src="docs/images/Home.png" width="500"/><br> 
+<img src="docs/images/HomePage.png" width="500"/><br> 
 <sub>Home</sub> </td> <td align="center"> 
-<img src="docs/images/Assignments.png" width="500"/><br> 
+<img src="docs/images/AssignmentPage.png" width="500"/><br> 
 <sub>Assignments</sub> </td> </tr> </table>
 
 ---
