@@ -41,7 +41,7 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
                 Q(vehicle__make__icontains=search_by)
             )
 
-        return queryset.order_by('assignment_start')
+        return queryset.order_by(f'{"-" if status == "completed" else ""}assignment_start')
 
 
 class AssignmentDetailsView(AssignmentContextMixin, DetailView):
