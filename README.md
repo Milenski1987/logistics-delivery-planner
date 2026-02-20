@@ -13,7 +13,7 @@
 
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
-- [Apps & System Overview](#-apps-&-system-overview)
+- [Apps & System Overview](#-apps-and-system-overview)
 - [Screenshots](#-screenshots)
 - [Dependencies](#-dependencies)
 - [Project Structure](#-project-structure)
@@ -33,7 +33,7 @@
 
 ---
 
-## 🗂 Apps & System Overview
+## 🗂 Apps and System Overview
 
 ### `common`
 Contains utility functions, and any cross-app models or mixins. Other apps import from here to avoid code duplication.
