@@ -13,14 +13,13 @@
 
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
-- [System Overview](#-system-overview)
+- [Apps & System Overview](#-apps-&-system-overview)
 - [Screenshots](#-screenshots)
 - [Dependencies](#-dependencies)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
 - [Running the App](#-running-the-app)
 - [Setting Up PostgreSQL](#-setting-up-postgresql)
-- [Apps Overview](#-apps-overview)
 - [License](#-license)
 
 ---
@@ -34,12 +33,25 @@
 
 ---
 
-## 🧩 System Overview
+## 🗂 Apps & System Overview
+
+### `common`
+Contains utility functions, and any cross-app models or mixins. Other apps import from here to avoid code duplication.
+
+### `drivers`
+Handles everything related to drivers.
+
+### `vehicles`
+Manages the vehicle fleet. Includes vehicle registration, type categorization, capacity info.
+
+### `routes`
+The core of the application. Allows planners to create, update and delete Delivery Points, Routes and Assignments (assign vehicles and drivers to routes).
+
 
 - Each **Route** consists of multiple **Delivery Points**
 - **Assignments** link Drivers and Vehicles to specific Routes
 - The system ensures organized planning and execution of deliveries
-
+  
 ---
 
 ## 📸 Screenshots
@@ -69,18 +81,12 @@
 logistics-delivery-planner/
 │
 ├── logisticsDeliveryPlanner/   # Main Django project settings
-│   ├── settings.py
-│   ├── urls.py
-│   └── wsgi.py
-│
 ├── common/                     # Shared utilities, base models, mixins
-├── drivers/                    # Driver management app
-├── vehicles/                   # Vehicle fleet management app
-├── routes/                     # Route, Delivery Point and Assignment management app
-│   
+├── drivers/                    # Drivers management app
+├── vehicles/                   # Vehicles management app
+├── routes/                     # Routes, Delivery Points and Assignments management app
 ├── templates/                  # HTML templates
 ├── static/                     # Static assets (images)
-│
 ├── manage.py
 ├── requirements.txt            # Project dependencies
 ├── .env-example                # Example environment config
@@ -279,22 +285,6 @@ DATABASES = {
     }
 }
 ```
-
----
-
-## 🗂 Apps Overview
-
-### `common`
-Contains utility functions, and any cross-app models or mixins. Other apps import from here to avoid code duplication.
-
-### `drivers`
-Handles everything related to drivers.
-
-### `vehicles`
-Manages the vehicle fleet. Includes vehicle registration, type categorization, capacity info.
-
-### `routes`
-The core of the application. Allows planners to create, update and delete Delivery Points, Routes and Assignments (assign vehicles and drivers to routes).
 
 ---
 
