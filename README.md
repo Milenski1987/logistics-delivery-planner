@@ -20,6 +20,7 @@
 - [Getting Started](#-getting-started)
 - [Running the App](#-running-the-app)
 - [Setting Up PostgreSQL](#-setting-up-postgresql)
+- [Static Files with WhiteNoise](#-static-files-with-whitenoise)
 - [License](#-license)
 
 ---
@@ -76,7 +77,6 @@ The core of the application. Allows planners to create, update and delete Delive
 ---
 
 ## 📁 Project Structure
-
 ```
 logistics-delivery-planner/
 │
@@ -123,7 +123,6 @@ All dependencies are listed in `requirements.txt`. Here's what each one does:
 ### Installation
 
 **1. Clone the repository**
-
 ```bash
 git clone https://github.com/Milenski1987/logistics-delivery-planner.git
 cd logistics-delivery-planner
@@ -132,18 +131,17 @@ cd logistics-delivery-planner
 **2. Create and activate a virtual environment**
 
 * *Windows:*
-    ```bash
+```bash
     python -m venv venv
     venv\Scripts\activate
-    ```
+```
 * *macOS/Linux:*
-    ```bash
+```bash
     python3 -m venv venv
     source venv/bin/activate
-    ```
+```
 
 **3. Install dependencies**
-
 ```bash
 pip install -r requirements.txt
 ```
@@ -157,14 +155,15 @@ cp .env-example .env
 
 Then fill in your values:
 
-| Variable | Example Value | Description |
-|---|---|---|
+| Variable | Example Value | Description                                                                                                     |
+|---|---|-----------------------------------------------------------------------------------------------------------------|
 | `SECRET_KEY` | `django-insecure-xxxx...` | Django's secret key used for cryptographic signing. Generate a new one for production — never share it publicly |
-| `DB_NAME` | `routemaster` | Name of your PostgreSQL database |
-| `DB_USER` | `routemaster_user` | PostgreSQL user with access to the database |
-| `DB_PASSWORD` | `your_password` | Password for the PostgreSQL user |
-| `DB_HOST` | `127.0.0.1` | Database host — use `127.0.0.1` for local development |
-| `DB_PORT` | `5432` | Database port — `5432` is the PostgreSQL default |
+| `DEBUG` | `True` | Controls debug mode — set to `False` in production                                                              |
+| `DB_NAME` | `routemaster` | Name of your PostgreSQL database                                                                                |
+| `DB_USER` | `routemaster_user` | PostgreSQL username with access to the database                                                                 |
+| `DB_PASSWORD` | `your_password` | Password for the PostgreSQL user                                                                                |
+| `DB_HOST` | `127.0.0.1` | Database host — use `127.0.0.1` for local development                                                           |
+| `DB_PORT` | `5432` | Database port — `5432` is the PostgreSQL default                                                                |
 
 
 > 💡 To generate a secure `SECRET_KEY` for production, run:
@@ -176,19 +175,16 @@ Then fill in your values:
 
 
 **5. Apply migrations (added data migration to populate database)**
-
 ```bash
 python manage.py migrate
 ```
 
 **6. Create a superuser (optional)**
-
 ```bash
 python manage.py createsuperuser
 ```
 
 **7. Collect static files**
-
 ```bash
 python manage.py collectstatic
 ```
@@ -196,7 +192,6 @@ python manage.py collectstatic
 ---
 
 ## ▶️ Running the App
-
 ```bash
 python manage.py runserver
 ```
@@ -235,7 +230,6 @@ Download and run the installer from [postgresql.org/download/windows](https://ww
 ### 2. Create the Database and User
 
 Open the PostgreSQL shell:
-
 ```bash
 # macOS / Linux
 psql postgres
@@ -245,7 +239,6 @@ sudo -u postgres psql
 ```
 
 Then run the following SQL commands:
-
 ```sql
 CREATE DATABASE database_name_of_your_choice;
 CREATE USER username_of_your_choice WITH PASSWORD 'passowrd_of_your_choice';
@@ -267,7 +260,6 @@ Replace 'passowrd_of_your_choice' with paswword you want for your username passw
 ### 3. Configure `settings.py`
 
 Make sure your `DATABASES` setting reads from your `.env` file:
-
 ```python
 import os
 from dotenv import load_dotenv
@@ -280,11 +272,45 @@ DATABASES = {
         'NAME': os.getenv('DB_NAME'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 ```
+
+---
+
+## 🗂 Static Files with WhiteNoise
+
+In production, Django doesn't serve static files (CSS, JS, images) on its own — it expects a dedicated web server like Nginx to handle that. For a project of this scale, setting up a separate server just for static files adds unnecessary complexity.
+
+**WhiteNoise** solves this by letting Django serve its own static files efficiently, with no extra infrastructure needed.
+
+**How it's used in this project:**
+
+WhiteNoise is registered as a middleware in `settings.py`, placed directly after Django's `SecurityMiddleware`:
+```python
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # serves static files in production
+    ...
+]
+```
+
+Static files are collected into `staticfiles/` via `collectstatic` and served from there:
+```python
+STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'   # where WhiteNoise serves files from
+STATICFILES_DIRS = [BASE_DIR / 'static'] # your source static files
+```
+
+`DEBUG` is controlled via the `.env` file and read in `settings.py` like this:
+```python
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
+```
+
+- Local development → set `DEBUG=True` in your `.env`
+- Production → set `DEBUG=False` in your `.env` — WhiteNoise will then take over static file serving automatically
 
 ---
 
