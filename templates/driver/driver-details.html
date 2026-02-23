@@ -1,6 +1,13 @@
 {% extends 'base/base-details-page.html' %}
 {% load date_convert_filter %}
+{% load static %}
 
+{% block detail_image %}
+<img src="{% if driver.photo %}{{ driver.photo }}{% else %}{% static 'images/driver_icon.png' %}{% endif %}"
+     alt="{{ driver.full_name }}"
+     class="img-fluid rounded-circle shadow"
+     style="max-width: 200px; height: 200px; object-fit: cover;">
+{% endblock %}
 
 {% block logic %}
 <div class="mb-3 p-3 bg-white rounded-4">
