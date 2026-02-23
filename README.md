@@ -58,10 +58,20 @@ The core of the application. Allows planners to create, update and delete Delive
 ## 📸 Screenshots
 
 <table> <tr> <td align="center"> 
-<img src="docs/images/HomePage.png" width="500"/><br> 
-<sub>Home</sub> </td> <td align="center"> 
-<img src="docs/images/AssignmentPage.png" width="500"/><br> 
-<sub>Assignments</sub> </td> </tr> </table>
+<img src="docs/images/HomePage.png" width="500" alt="Home Page"/><br> 
+<sub>Home Page</sub> </td> <td align="center"> 
+<img src="docs/images/ListPage.png" width="500" alt="List Page"/><br> 
+<sub>List Page</sub> </td> </tr> </table>
+<table> <tr> <td align="center"> 
+<img src="docs/images/DetailsPage.png" width="500" alt="Details Page"/><br> 
+<sub>Details Page</sub> </td> <td align="center"> 
+<img src="docs/images/AddPage.png" width="500" alt="Add Page"/><br> 
+<sub>Add Page</sub> </td> </tr> </table>
+<table> <tr> <td align="center"> 
+<img src="docs/images/EditPage.png" width="500" alt="Edit Page"/><br> 
+<sub>Edit Page</sub> </td> <td align="center"> 
+<img src="docs/images/DeletePage.png" width="500" alt="Delete Page"/><br> 
+<sub>Delete Page</sub> </td> </tr> </table>
 
 ---
 
