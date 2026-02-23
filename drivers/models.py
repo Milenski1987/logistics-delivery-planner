@@ -26,6 +26,11 @@ class Driver(models.Model):
         ]
     )
 
+    photo = models.URLField(
+        blank=True,
+        null=True
+    )
+
     driving_license_number = models.CharField(
         max_length=10,
         validators=[

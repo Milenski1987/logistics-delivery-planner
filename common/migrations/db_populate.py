@@ -84,6 +84,7 @@ def generate_data(apps, schema_editor):
             phone_number=generate_phone(used_phones),
             driving_license_number=generate_license(used_licenses),
             years_of_experience=random.randint(0, date.today().year - birth_year - 18),
+            photo=f"https://randomuser.me/api/portraits/men/{random.randint(0, 99)}.jpg",
         )
         drivers.append(driver)
 
