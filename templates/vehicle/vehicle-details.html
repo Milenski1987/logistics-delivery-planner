@@ -1,5 +1,12 @@
 {% extends 'base/base-details-page.html' %}
+{% load static %}
 
+{% block detail_image %}
+<img src="{% if vehicle.photo %}{{ vehicle.photo }}{% else %}{% static 'images/vehicle_icon.png' %}{% endif %}"
+     alt="{{ vehicle.make }}"
+     class="img-fluid rounded-circle shadow"
+     style="max-width: 200px; height: 200px; object-fit: cover;">
+{% endblock %}
 
 {% block logic %}
 <div class="mb-3 p-3 bg-white rounded-4">
