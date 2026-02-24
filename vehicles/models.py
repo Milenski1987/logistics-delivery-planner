@@ -23,6 +23,11 @@ class Vehicle(models.Model):
         null=True
     )
 
+    photo = models.URLField(
+        blank=True,
+        null=True
+    )
+
     vehicle_type = models.CharField(
         max_length= 10,
         choices=VehicleTypeChoices.choices
