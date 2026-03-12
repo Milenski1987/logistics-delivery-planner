@@ -1,12 +1,14 @@
+from typing import Any, Dict
 from django.db.models import QuerySet
-from django.views.generic import ListView, FormView, DetailView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from common.mixins import ModifyFormData
-from drivers.forms import DriverSearchAndSortForm
+from drivers.forms import DriverSearchAndSortForm, DriverAddForm, DriverEditForm, DriverDeleteForm
 from drivers.mixins import DriverContextMixin
 from drivers.models import Driver
 
 
-class DriverListView(DriverContextMixin,ModifyFormData ,ListView, FormView):
+class DriverListView(ModifyFormData ,ListView, FormView):
     model = Driver
     template_name = 'driver/drivers-list.html'
     context_object_name = 'drivers'
@@ -27,7 +29,45 @@ class DriverListView(DriverContextMixin,ModifyFormData ,ListView, FormView):
 
         return queryset
 
-
 class DriverDetailView(DriverContextMixin, DetailView):
     model = Driver
     template_name = 'driver/driver-details.html'
+
+
+class DriverCreateView(DriverContextMixin, CreateView):
+    model = Driver
+    template_name = 'driver/driver-create.html'
+    form_class = DriverAddForm
+
+    def get_success_url(self) -> str:
+        return reverse('driver:details', kwargs={'pk': self.object.pk})
+
+
+class DriverUpdateView(DriverContextMixin, UpdateView):
+    model = Driver
+    template_name = 'driver/driver-update.html'
+    form_class = DriverEditForm
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'driver:details'
+        context['id'] = self.get_object().pk
+
+        return context
+
+    def get_success_url(self) -> str:
+        return reverse('driver:details', kwargs={'pk': self.object.pk})
+
+
+class DriverDeleteView(DriverContextMixin, DeleteView):
+    model = Driver
+    template_name = 'driver/driver-delete.html'
+    success_url = reverse_lazy('driver:list')
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['back_url'] = 'driver:details'
+        context['id'] = self.get_object().pk
+        context['form'] = DriverDeleteForm(instance=self.object)
+
+        return context
