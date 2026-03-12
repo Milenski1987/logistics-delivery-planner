@@ -62,11 +62,13 @@ The core of the application. Allows planners to create, update and delete Delive
 <sub>Home Page</sub> </td> <td align="center"> 
 <img src="docs/images/ListPage.png" width="500" alt="List Page"/><br> 
 <sub>List Page</sub> </td> </tr> </table>
+
 <table> <tr> <td align="center"> 
 <img src="docs/images/DetailsPage.png" width="500" alt="Details Page"/><br> 
 <sub>Details Page</sub> </td> <td align="center"> 
 <img src="docs/images/AddPage.png" width="500" alt="Add Page"/><br> 
 <sub>Add Page</sub> </td> </tr> </table>
+
 <table> <tr> <td align="center"> 
 <img src="docs/images/EditPage.png" width="500" alt="Edit Page"/><br> 
 <sub>Edit Page</sub> </td> <td align="center"> 
