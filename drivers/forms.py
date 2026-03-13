@@ -42,7 +42,7 @@ class BaseDriverForm(forms.ModelForm):
             ),
             'photo': forms.URLInput(
                 attrs={
-                    'placeholder': 'Photo upload...'
+                    'placeholder': 'Input photo URL...'
                 }
             ),
             'driving_license_number':forms.TextInput(
@@ -59,6 +59,7 @@ class BaseDriverForm(forms.ModelForm):
 
         help_texts={
             'years_of_experience': 'Only integer numbers',
+            'photo': 'URL of your photo',
             'driving_license_number': 'Enter 10 uppercase alphanumeric characters'
         }
 
@@ -90,8 +91,10 @@ class BaseDriverForm(forms.ModelForm):
 
 class DriverDeleteForm(ReadOnlyFieldsMixin, BaseDriverForm):
     class Meta(BaseDriverForm.Meta):
+        exclude = ['photo']
         widgets = {}
         help_texts = {}
+
 
 
 class DriverAddForm(BaseDriverForm):

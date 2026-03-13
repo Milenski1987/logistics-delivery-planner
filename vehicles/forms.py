@@ -46,7 +46,7 @@ class BaseVehicleForm(forms.ModelForm):
             ),
             'photo': forms.URLInput(
                 attrs={
-                    'placeholder': 'Upload Vehicle photo...'
+                    'placeholder': 'Input photo URL...'
                 }
             ),
             'vehicle_type':forms.Select(
@@ -69,6 +69,7 @@ class BaseVehicleForm(forms.ModelForm):
 
         help_texts={
             'registration_number': 'Between 6 to 8 uppercase alphanumeric characters',
+            'photo': 'URL of your photo',
             'capacity_kg': 'Only positive integer numbers',
         }
 
@@ -121,6 +122,7 @@ class BaseVehicleForm(forms.ModelForm):
 
 class VehicleDeleteForm(ReadOnlyFieldsMixin, BaseVehicleForm):
     class Meta(BaseVehicleForm.Meta):
+        exclude = ['photo']
         widgets = {}
         help_texts = {}
 
