@@ -1,5 +1,7 @@
 from typing import Any, Dict
-from django.db.models import QuerySet
+from django.db.models import QuerySet, ProtectedError
+from django.shortcuts import redirect
+from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from common.mixins import ModifyFormData
@@ -59,6 +61,7 @@ class DriverUpdateView(DriverContextMixin, UpdateView):
         return reverse('driver:details', kwargs={'pk': self.object.pk})
 
 
+
 class DriverDeleteView(DriverContextMixin, DeleteView):
     model = Driver
     template_name = 'driver/driver-delete.html'
@@ -67,7 +70,20 @@ class DriverDeleteView(DriverContextMixin, DeleteView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['back_url'] = 'driver:details'
-        context['id'] = self.get_object().pk
+        context['id'] = self.object.pk
         context['form'] = DriverDeleteForm(instance=self.object)
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        try:
+            return super().post(request, *args, **kwargs)
+
+        except ProtectedError:
+            messages.error(
+                request,
+                "Unable to delete: Driver has active assignments."
+            )
+            return redirect('driver:delete', pk=self.object.pk)

@@ -1,6 +1,8 @@
 from typing import Any, Dict
-from django.db.models import Q, QuerySet
+from django.db.models import Q, QuerySet, ProtectedError
+from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
+from django.contrib import messages
 from django.views.generic import ListView, FormView, DetailView, CreateView, UpdateView, DeleteView
 from common.forms import SearchForm
 from common.mixins import ModifyFormData
@@ -76,3 +78,16 @@ class RouteDeleteView(RouteContextMixin, DeleteView):
         context['form'] = RouteDeleteForm(instance=self.object)
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        try:
+            return super().post(request, *args, **kwargs)
+
+        except ProtectedError:
+            messages.error(
+                request,
+                "Unable to delete: Route has active assignments."
+            )
+            return redirect('routes:route_delete', pk=self.object.pk)
