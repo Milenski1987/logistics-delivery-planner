@@ -31,6 +31,7 @@ class DriverListView(ModifyFormData ,ListView, FormView):
 
         return queryset
 
+
 class DriverDetailView(DriverContextMixin, DetailView):
     model = Driver
     template_name = 'driver/driver-details.html'
@@ -61,7 +62,6 @@ class DriverUpdateView(DriverContextMixin, UpdateView):
         return reverse('driver:details', kwargs={'pk': self.object.pk})
 
 
-
 class DriverDeleteView(DriverContextMixin, DeleteView):
     model = Driver
     template_name = 'driver/driver-delete.html'
@@ -82,8 +82,6 @@ class DriverDeleteView(DriverContextMixin, DeleteView):
             return super().post(request, *args, **kwargs)
 
         except ProtectedError:
-            messages.error(
-                request,
-                "Unable to delete: Driver has active assignments."
-            )
+            messages.error(request,"Unable to delete: Driver has active assignments.")
+
             return redirect('driver:delete', pk=self.object.pk)

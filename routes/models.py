@@ -1,5 +1,5 @@
 from django.db import models
-from routes.mixins import TimeStampMixin
+from common.mixins import TimeStampMixin
 
 
 class DeliveryPoint(models.Model):

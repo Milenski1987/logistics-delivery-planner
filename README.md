@@ -37,13 +37,13 @@
 ## 🗂 Apps and System Overview
 
 ### `common`
-Contains utility functions, and any cross-app models or mixins. Other apps import from here to avoid code duplication.
+Contains utility functions, and any cross-app models or mixins.
 
 ### `drivers`
-Handles everything related to drivers.
+Handles everything related to drivers. Allows to create, update and delete Drivers.
 
 ### `vehicles`
-Manages the vehicle fleet. Includes vehicle registration, type categorization, capacity info.
+Manages the vehicle fleet. Includes vehicle registration, type categorization, capacity info. Allows to create, update and delete Vehicles.
 
 ### `routes`
 The core of the application. Allows planners to create, update and delete Delivery Points, Routes and Assignments (assign vehicles and drivers to routes).
@@ -93,7 +93,7 @@ The core of the application. Allows planners to create, update and delete Delive
 logistics-delivery-planner/
 │
 ├── logisticsDeliveryPlanner/   # Main Django project settings
-├── common/                     # Shared utilities, base models, mixins
+├── common/                     # Shared utilities, mixins
 ├── drivers/                    # Drivers management app
 ├── vehicles/                   # Vehicles management app
 ├── routes/                     # Routes, Delivery Points and Assignments management app
@@ -208,9 +208,9 @@ python manage.py collectstatic
 python manage.py runserver
 ```
 
-Then open your browser at: [http://127.0.0.1:8000](http://127.0.0.1:8000)
+Then open your browser at: [http://127.0.0.1:8000/](http://127.0.0.1:8000)
 
-The admin panel is available at: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)
+The admin panel is available at: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin)
 
 ---
 
@@ -294,9 +294,9 @@ DATABASES = {
 
 ## 🗂 Static Files with WhiteNoise
 
-In production, Django doesn't serve static files (CSS, JS, images) on its own — it expects a dedicated web server like Nginx to handle that. For a project of this scale, setting up a separate server just for static files adds unnecessary complexity.
+In production, Django doesn't serve static files (CSS, JS, images) on its own — it expects a dedicated web server like Nginx to handle that.
 
-**WhiteNoise** solves this by letting Django serve its own static files efficiently, with no extra infrastructure needed.
+**WhiteNoise** solves this by letting Django serve its own static files.
 
 **How it's used in this project:**
 

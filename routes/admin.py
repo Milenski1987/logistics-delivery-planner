@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from routes.models import DeliveryPoint, Route, Assignment
 
 
@@ -18,6 +17,7 @@ class RouteAdmin(admin.ModelAdmin):
     search_fields = ['start_location', 'end_location']
     readonly_fields = ['created_at', 'updated_at']
     list_per_page = 20
+
 
 @admin.register(Assignment)
 class AssignmentAdmin(admin.ModelAdmin):

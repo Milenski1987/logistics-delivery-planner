@@ -82,8 +82,6 @@ class VehicleDeleteView(VehicleContextMixin, DeleteView):
             return super().post(request, *args, **kwargs)
 
         except ProtectedError:
-            messages.error(
-                request,
-                "Unable to delete: Vehicle has active assignments."
-            )
+            messages.error(request,"Unable to delete: Vehicle has active assignments.")
+
             return redirect('vehicle:delete', pk=self.object.pk)

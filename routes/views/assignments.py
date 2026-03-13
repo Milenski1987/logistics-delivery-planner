@@ -35,9 +35,12 @@ class AssignmentListView(AssignmentContextMixin, ModifyFormData, ListView, FormV
 
         if search_by:
             queryset = queryset.filter(
-                Q(route__name__icontains=search_by) |
-                Q(route__points_for_delivery__name__icontains=search_by) |
-                Q(driver__full_name__icontains=search_by) |
+                Q(route__name__icontains=search_by)
+                |
+                Q(route__points_for_delivery__name__icontains=search_by)
+                |
+                Q(driver__full_name__icontains=search_by)
+                |
                 Q(vehicle__make__icontains=search_by)
             )
 

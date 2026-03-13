@@ -40,7 +40,6 @@ class RouteDetailsView(RouteContextMixin, DetailView):
     template_name = 'route/route-details.html'
 
 
-
 class RouteCreateView(RouteContextMixin, CreateView):
     queryset = Route.objects.prefetch_related('points_for_delivery')
     template_name = 'route/route-create.html'
@@ -86,8 +85,6 @@ class RouteDeleteView(RouteContextMixin, DeleteView):
             return super().post(request, *args, **kwargs)
 
         except ProtectedError:
-            messages.error(
-                request,
-                "Unable to delete: Route has active assignments."
-            )
+            messages.error(request,"Unable to delete: Route has active assignments.")
+
             return redirect('routes:route_delete', pk=self.object.pk)

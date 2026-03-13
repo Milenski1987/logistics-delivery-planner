@@ -1,9 +1,7 @@
 from typing import Optional
-
 from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.timezone import now
-
 from common.forms import SearchForm
 from common.mixins import ReadOnlyFieldsMixin
 from vehicles.models import Vehicle
