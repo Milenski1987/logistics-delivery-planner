@@ -1,6 +1,7 @@
 from datetime import date
 from django.core.validators import RegexValidator
 from django.db import models
+from common.validators import PhotoURLValidate
 from drivers.validators import driver_years_validator, PhoneNumberValidator
 
 
@@ -28,7 +29,10 @@ class Driver(models.Model):
 
     photo = models.URLField(
         blank=True,
-        null=True
+        null=True,
+        validators=[
+            PhotoURLValidate('URL must point to a valid image file (.jpg, .jpeg, .png, .gif, .webp)')
+        ]
     )
 
     driving_license_number = models.CharField(
