@@ -53,22 +53,19 @@ class Route(TimeStampMixin):
 class Assignment(TimeStampMixin):
     route = models.ForeignKey(
         'Route',
-        null = True,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name='route_assignments'
     )
 
     driver = models.ForeignKey(
         'drivers.Driver',
-        null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name='driver_assignments'
     )
 
     vehicle = models.ForeignKey(
         'vehicles.Vehicle',
-        null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.PROTECT,
         related_name='vehicle_assignments'
     )
 
