@@ -47,7 +47,7 @@ class Route(TimeStampMixin):
     )
 
     def __str__(self):
-        return f'{self.start_location} - {self.end_location}'
+        return f'{self.name}'
 
 
 class Assignment(TimeStampMixin):
